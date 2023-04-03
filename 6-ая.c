@@ -1,59 +1,67 @@
-#define data 100//максимальный размер массива
 #include <stdio.h>
 #include <math.h>
-int Mas[data];//массив в виде глобальной переменной
 
-int Max (int numb) {//функция по нахождению максимума массива через оператор (*)
-	int i, max=0;
-	int* pMas;//указатель
-	for (i=1, pMas=Mas;i<=numb;i++) {//указатель "указывает" на массив
-		if (*(pMas+i)>max) {
-			max=*(pMas+i);
+#define data 100
+
+int Mas[data];
+
+int Max (int *Mas, int numb) {//функция по нахождению максимума массива через
+//оператор (*)
+	int max = Mas[0];
+	for (int i = 0; i < numb; i++) {
+		if (*(Mas + i + 1) > max) {
+			max =* (Mas + i + 1);
 		}
 	}
-	return (max);
+	return max;
 }
 
-int Min (int numb) {//функция по нахождению минимума массива через оператор (*)
-	int* pMas;//ссылка
-	int i=1, min=Max(numb);
-	for (i=1, pMas=Mas;i<=numb;i++) {//ссылка принимает значение массива
-		if (*(pMas+i)<min) {
-			min=*(pMas+i);
+int Min (int *Mas, int numb) {//функция по нахождению минимума массива через
+// оператор (*)
+	int min = Max(Mas, numb);
+	for (int i = 0; i < numb; i++) {
+		if (*(Mas + i + 1) < min) {
+			min =* (Mas + i + 1);
 		}
 	}
-	return (min);
+	return min;
 }
 
-float Mean (int numb) {//функция по нахождению среднеарифметического значения массива
-	int i;
+float Mean (int *Mas, int numb) {//функция по нахождению среднеарифметического
+// значения массива
 	float count=0;
-	for(i=1;i<=numb;i++) {
-		count+=Mas[i];
+	for (int i = 0; i < numb; i++) {
+		count += Mas[i];
 	}
-	count/=numb;
-	return (count);
+	count /= numb;
+	return count;
 }
 
-float RMS (int numb) {//функция по нахождению среднеквадратичного отклонения в массиве
-	int i;
-	float S=0;
-	for (i=1;i<=numb;i++) {
-		S+=pow(Mas[i]-Mean(numb),2);
+float RMS (int *Mas, int numb) {//функция по нахождению среднеквадратичного 
+// отклонения в массиве
+	float S = 0;
+	for (int i = 0; i < numb; i++) {
+		S += pow(Mas[i] - Mean(Mas, numb), 2);
 	}
-	S/=numb-1;
-	return(sqrt(S));
+	S /= numb - 1;
+	return sqrt(S);
 }
 
 int main()
 {
-	printf ("This program calculates the maximum, minimum, mean, square deviation in the entered static array\nEnter the array size\n");//приветствие
+	printf ("This program calculates the maximum, minimum, mean,\
+ square deviation in the entered static array\nEnter the array size\n");
 	int array_size, i;
+	
 	scanf ("%d", &array_size);
-	for(i=1;i<=array_size;i++) {
+	
+	for (i = 1; i <= array_size; i++) {
 		printf ("Enter the %d item\n", i);
-		scanf ("%d", &Mas[i]);//вводим значение для каждого элемента массива
+		scanf ("%d", &Mas[i]);
 	}
-	printf ("\n\nMax = %d\nMin = %d\nMean = %f\nRMS = %f\n", Max(array_size), Min(array_size), Mean(array_size), RMS(array_size));
+	
+	printf ("\n\nMax = %d\nMin = %d\nMean = %f\nRMS = %f\n",\
+ Max(Mas, array_size), Min(Mas, array_size), Mean(Mas, array_size), \
+ RMS(Mas, array_size));
 	return 0;
 }
