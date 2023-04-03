@@ -1,29 +1,46 @@
 #include <stdio.h>
 #include <math.h>
 
-float Func (float x){ //интереумая функция
-	float value; //значение функции
-	value = 1/logl(x); //самостоятельно вводим интересуемую нами функцию
-	return (value);//возвращение значения функции
+float Func (float x){
+	return 1 / logl(x);
+}
+
+float count_dx (int a, int b, int step) {
+	return (b - a) / step;	
+}
+
+float first_integral (int a, int b) {
+	return (Func(a) + Func(b)) / 2;
+}
+
+float full_integral (int step, int a, int b) {
+	float integral = first_integral(a, b);
+	for (int i = 1; i < step; i++) {
+		a += count_dx(a, b, step);
+		integral += Func(a);
+	}
+	return integral;
+}
+
+float character_definition (int a, int b, float result) {
+	if (b < a) {
+		result *= (-1);
+	}
 }
 
 int main()
 {
-	printf ("This program calculates the integral of the function F(x) by trapezoidal method\nEnter the lower integration limit (a), the upper integration limit, the number of partitions\n");//приветствие
-	int step, i;
-	float a, b, h, integral, result;
+	printf ("This program calculates the integral of the function F(x)\
+ by trapezoidal method\nEnter the lower integration limit, the\
+ upper integration limit, the number of partitions\n");
+	int step;
+	float a, b, result;
+	
 	scanf ("%f %f %d", &a, &b, &step);
-	h=(b-a)/step; //вычисляем длину каждого шага
-	integral=(Func(a)+Func(b))/2; /*это первый член суммы по методу 
-	трапеции */
-	for(i=1;i<step;i++) {//прибавляем каждый последующий шаг
-		a+=h;
-		integral+=Func(a);
-	}
-	result = h*integral;
-	if (b<a) {
-		result*=(-1);
-	}
-	printf ("%f\n", result);
+	
+	result = count_dx(a, b, step) * full_integral(step, a, b);
+	
+	printf ("%f\n", character_definition(a, b, result));
+	
 	return 0;
 }
