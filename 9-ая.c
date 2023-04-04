@@ -1,188 +1,166 @@
 #include <stdio.h>
 #include <math.h>
-float Mas3 [3][3];//создаём третий массив, который будет результатом наших операций, в виде глобальной переменоой
 
-void summ (float Mas1[3][3], float Mas2[3][3]) {//функция по сложению
-	int i, j;
-	for (i=0;i<3;i++) {
-		for (j=0;j<3;j++) {
-			Mas3[i][j]=Mas1[i][j]+Mas2[i][j];//берём элемент первого массива, берём элемент того же номера, но уже из второго массива, складываем и записываем в третий массив 
+typedef struct {
+	float Mas1[3][3];
+	float Mas2[3][3];
+} Matrix;
+
+Matrix M;
+
+void summ (float Mas3[], float Mas1[], float Mas2[]) {//функция по сложению
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			Mas3[i * 3 + j] = Mas1[i * 3 + j] + Mas2[i * 3 + j];
 		}
 	}
 }
 
-void product (float Mas1[3][3], float Mas2[3][3]) {//функция по умножению
-	int i, j;
-	for (i=0;i<3;i++) {
-		for (j=0;j<3;j++) {
-			Mas3[i][j]=Mas1[i][j]*Mas2[i][j];//берём элемент первого массива, берём элемент того же номера, но уже из второго массива, перемножаем и записываем в третий массив 
+void product (float Mas3[], float Mas1[], float Mas2[]) {//функция по умножению
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			Mas3[i * 3 + j] = 0;
+			for (int k = 0; k < 3; k++) {
+				Mas3[i * 3 + j] = Mas1[i * 3 + k] * Mas2[k * 3 + j] + Mas3[i * 3 + j];	 
+			}
 		}
-	}	
+	}
 }
 
-float det (float Mas3[3][3]) {//функция по поиску определителя матрицы
+float det (float Mas[]) {//функция по поиску определителя матрицы
 	float det;
-	det=Mas3[0][0]*Mas3[1][1]*Mas3[2][2]+\
-	Mas3[0][1]*Mas3[1][2]*Mas3[2][0]+\
-	Mas3[0][2]*Mas3[1][0]*Mas3[2][1]-\
-	Mas3[0][2]*Mas3[1][1]*Mas3[2][0]-\
-	Mas3[0][0]*Mas3[1][2]*Mas3[2][1]-\
-	Mas3[0][1]*Mas3[1][0]*Mas3[2][2];
+	det = Mas[0 * 3 + 0] * Mas[1 * 3 + 1] * Mas[2 * 3 + 2] + \
+	Mas[0 * 3 + 1] * Mas[1 * 3 + 2] * Mas[2 * 3 + 0] + \
+	Mas[0 * 3 + 2] * Mas[1 * 3 + 0] * Mas[2 * 3 + 1]-\
+	Mas[0 * 3 + 2] * Mas[1 * 3 + 1] * Mas[2 * 3 + 0]-\
+	Mas[0 * 3 + 0] * Mas[1 * 3 + 2] * Mas[2 * 3 + 1]-\
+	Mas[0 * 3 + 1] * Mas[1 * 3 + 0] * Mas[2 * 3 + 2];
 	return (det);
 }
 
-void reverse (float Mas1[3][3]) {//функция по поиску обратной матрицы
-			Mas3[0][0] = (Mas1[1][1]*Mas1[2][2]-Mas1[2][1]*Mas1[1][2])/det(Mas1);
-			Mas3[0][1] = (Mas1[0][1]*Mas1[2][2]-Mas1[2][1]*Mas1[0][2])/det(Mas1);
-			Mas3[0][2] = (Mas1[0][1]*Mas1[1][2]-Mas1[1][1]*Mas1[0][2])/det(Mas1);
-			Mas3[1][0] = (Mas1[1][0]*Mas1[2][2]-Mas1[2][0]*Mas1[1][2])/det(Mas1);
-			Mas3[1][1] = (Mas1[0][0]*Mas1[2][2]-Mas1[2][0]*Mas1[0][2])/det(Mas1);
-			Mas3[1][2] = (Mas1[0][0]*Mas1[1][2]-Mas1[1][0]*Mas1[0][2])/det(Mas1);
-			Mas3[2][0] = (Mas1[1][0]*Mas1[2][1]-Mas1[2][0]*Mas1[1][1])/det(Mas1);
-			Mas3[2][1] = (Mas1[0][0]*Mas1[2][1]-Mas1[2][0]*Mas1[0][1])/det(Mas1);
-			Mas3[2][2] = (Mas1[0][0]*Mas1[1][1]-Mas1[1][0]*Mas1[0][1])/det(Mas1);
+void reverse (float Mas3[], float Mas1[]) {//функция по поиску обратной матрицы
+	Mas3[0] = (Mas1[1 * 3 + 1] * Mas1[2 * 3 + 2] - Mas1[2 * 3 + 1] * Mas1[1 * 3 + 2]) / det(Mas1);
+	Mas3[1] = (Mas1[0 * 3 + 1] * Mas1[2 * 3 + 2] - Mas1[2 * 3 + 1] * Mas1[0 * 3 + 2]) / det(Mas1);
+	Mas3[2] = (Mas1[0 * 3 + 1] * Mas1[1 * 3 + 2] - Mas1[1 * 3 + 1] * Mas1[0 * 3 + 2]) / det(Mas1);
+	Mas3[3] = (Mas1[1 * 3 + 0] * Mas1[2 * 3 + 2] - Mas1[2 * 3 + 0] * Mas1[1 * 3 + 2]) / det(Mas1);
+	Mas3[4] = (Mas1[0 * 3 + 0] * Mas1[2 * 3 + 2] - Mas1[2 * 3 + 0] * Mas1[0 * 3 + 2]) / det(Mas1);
+	Mas3[5] = (Mas1[0 * 3 + 0] * Mas1[1 * 3 + 2] - Mas1[1 * 3 + 0] * Mas1[0 * 3 + 2]) / det(Mas1);
+	Mas3[6] = (Mas1[1 * 3 + 0] * Mas1[2 * 3 + 1] - Mas1[2 * 3 + 0] * Mas1[1 * 3 + 1]) / det(Mas1);
+	Mas3[7] = (Mas1[0 * 3 + 0] * Mas1[2 * 3 + 1] - Mas1[2 * 3 + 0] * Mas1[0 * 3 + 1]) / det(Mas1);
+	Mas3[8] = (Mas1[0 * 3 + 0] * Mas1[1 * 3 + 1] - Mas1[1 * 3 + 0] * Mas1[0 * 3 + 1]) / det(Mas1);
+}
+
+float enter_matrix_by_file (FILE *array_input, float Mas[]) {
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			printf ("\nВводится %d %d элемент первой матрицы\n", i, j);
+			fscanf (array_input,"%f", &Mas[i * 3 + j]); 
+			printf ("%f", Mas[i * 3 + j]);
+		}
+	}
+	return *Mas;
+}
+
+float enter_matrix_by_yourself (float Mas[]) {
+	for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				printf ("Введите %d %d элемент первой матрицы\n", i, j);
+				scanf ("%f", &Mas[i * 3 + j]);
+			}
+		}
+	return *Mas;
+}
+
+void output_matrix (float Mas[]) {
+	for (int i = 0; i < 3; i++) {
+		printf ("\n");
+		for (int j = 0; j < 3; j++) {
+			printf ("%f ", Mas[i * 3 + j]);
+		}
+	}
+}
+
+void output_matrix_in_file (FILE *array_output, float Mas[]) {
+	for (int i = 0; i < 3; i++) {
+		fprintf (array_output,"\n");
+		for (int j = 0; j < 3; j++) {
+			fprintf (array_output, "%f ", Mas[i * 3 + j]);
+		}
+	}
 }
 
 int main()
 {
-	int i, j, path;//"path" - переменная по выбору способа считывания и записи элементов матрицы
-	float Mas1 [3][3], Mas2 [3][3];//создаём два массива
-	printf ("Enter '0'(self) if you want to enter values from the terminal or enter '1'(file) if you want to read from a file\n");//"приветствие"
+	int path;//"path" - переменная по выбору способа считывания и записи элементов матрицы
+	float Mas3 [3][3];
+	printf ("Enter '0'(self) if you want to enter values from the\
+ terminal or enter '1'(file) if you want to read from a file\n");
 	scanf ("%d", &path);
+	
 	if (path==1) {
-		FILE *array_input1 = fopen("/home/hello/Рабочий стол/Основы программирования/array_input1.txt", "r");
-		FILE *array_input2 = fopen("/home/hello/Рабочий стол/Основы программирования/array_input2.txt", "r");
-		for (i=0;i<3;i++) {//считывает с первого файла
-			for (j=0;j<3;j++) {
-				printf ("\nВводится %d %d элемент первой матрицы\n", i, j);
-				fscanf(array_input1,"%f", &Mas1[i][j]); 
-				printf("%f", Mas1[i][j]);
-			}
-		}
+		FILE *array_input1 = fopen("/home/hello/Рабочий стол/Основы\
+ программирования/array_input1.txt", "r");
+		FILE *array_input2 = fopen("/home/hello/Рабочий стол/Основы\
+ программирования/array_input2.txt", "r");
+		enter_matrix_by_file(array_input1, *M.Mas1);
 		printf ("\n\n");
-		for (i=0;i<3;i++) {//считывает со второго файла
-			for (j=0;j<3;j++) {
-				printf ("\nВводится %d %d элемент второй матрицы\n", i, j);
-				fscanf(array_input2,"%f", &Mas2[i][j]);
-				printf("%f", Mas2[i][j]); 
-			}
-		}
+		enter_matrix_by_file(array_input2, *M.Mas2);
 		fclose(array_input1);
 		fclose(array_input2);
 	}
 	else if (path==0){
-		for (i=0;i<3;i++) {//вводим самостоятельно элементы первой матрицы
-			for (j=0;j<3;j++) {
-				printf ("Введите %d %d элемент первой матрицы\n", i, j);
-				scanf ("%f", &Mas1[i][j]);
-			}
-		}
+		enter_matrix_by_yourself(*M.Mas1);
 		printf ("\n\n\n");
-		for (i=0;i<3;i++) {//вводим самостоятельно элементы второй матрицы
-			for (j=0;j<3;j++) {
-				printf ("Введите %d %d элемент второй матрицы\n", i, j);
-				scanf ("%f", &Mas2[i][j]);
-			}
-		}
+		enter_matrix_by_yourself(*M.Mas2);
 	}
 	else {
-		printf ("You wrong");
+		printf ("What do you want?");
 	}
 	printf ("\n\n");
-	for (i=0;i<3;i++) {//вывод первой матрицы
-		printf("\n");
-		for (j=0;j<3;j++) {
-			printf ("%f ", Mas1[i][j]);
-		}
-	}
+	output_matrix(*M.Mas1);
 	printf ("\n\n\n");
-	for (i=0;i<3;i++) {//вывод второй матрицы
-		printf("\n");
-		for (j=0;j<3;j++) {
-			printf ("%f ", Mas2[i][j]);
-		}
-	}
-	printf ("\n\n\nType '0'(self) if you want to output values in terminal or '1'(file) if you want to write values to a file\n");
-	scanf ("%d", &path);
-//	printf ("What???");
-	if (path==0) {
-		printf("\n\n");
-		summ(Mas1, Mas2);//вызываем функцию суммирования
-		for (i=0;i<3;i++) {//вывод результат функции в виде третьей матрицы
-			printf("\n");
-			for (j=0;j<3;j++) {
-				printf ("%f ", Mas3[i][j]);
-			}
-		}
-		printf("\n\n");
-		product(Mas1, Mas2);//вызываем функцию умножения
-		for (i=0;i<3;i++) {//вывод результат функции в виде третьей матрицы
-			printf("\n");
-			for (j=0;j<3;j++) {
-				printf ("%f ", Mas3[i][j]);
-			}
-		}
-		printf("\n\ndet1 = %f\n\ndet2 = %f\n\n", det(Mas1), det(Mas2));//вызываем функцию по обнаружению определителя и сразу же выводим его значение
-		reverse(Mas1);//вызываем функцию по обнаружению обратной матрицы к первой матрице
-		for (i=0;i<3;i++) {//вывод результат функции в виде третьей матрицы
-			printf("\n");
-			for (j=0;j<3;j++) {
-				printf ("%f ", Mas3[i][j]);
-			}
-		}
-		printf("\n\n");
-		reverse(Mas2);//вызываем функцию по обнаружению обратной матрицы ко второй матрице
-		for (i=0;i<3;i++) {//вывод результат функции в виде третьей матрицы
-			printf("\n");
-			for (j=0;j<3;j++) {
-				printf ("%f ", Mas3[i][j]);
-			}
-		}
-	}
-	else if (path==1){
-		FILE *array_output = fopen("/home/hello/Рабочий стол/Основы программирования/array_output.txt", "w");
-		summ(Mas1, Mas2);//вызываем функцию суммирования
-		for (i=0;i<3;i++) {//записываем результат функции в виде третьей матрицы в файл
-			fprintf(array_output,"\n");
-			for (j=0;j<3;j++) {
-				fprintf (array_output, "%f ", Mas3[i][j]);
-			}
-		}
-		fprintf (array_output, "\n\n");
+	output_matrix(*M.Mas2);
+	
+	printf("\n\n");
+	summ(*Mas3, *M.Mas1, *M.Mas2);//вызываем функцию суммирования
+	output_matrix(*Mas3);
+	
+	printf("\n\n");
+	product(*Mas3, *M.Mas1, *M.Mas2);//вызываем функцию умножения
+	output_matrix(*Mas3);
 		
-		product(Mas1, Mas2);//вызываем функцию умножения
-		for (i=0;i<3;i++) {//записываем результат функции в виде третьей матрицы в файл
-			fprintf(array_output,"\n");
-			for (j=0;j<3;j++) {
-				fprintf (array_output, "%f ", Mas3[i][j]);
-			}
-		}
-		fprintf (array_output, "\n\n");
+	printf("\n\ndet1 = %f\n\ndet2 = %f\n\n", det(*M.Mas1), det(*M.Mas2));
+	//вызываем функцию по обнаружению определителя и сразу же выводим его значение
+	
+	reverse(*Mas3, *M.Mas1);//вызываем функцию по обнаружению обратной матрицы к первой матрице
+	output_matrix(*Mas3);
+	printf("\n\n");
 		
-		fprintf (array_output,"\n\ndet1 = %f\n\ndet2 = %f\n\n", det(Mas1), det(Mas2));//вызываем функцию по обнаружению определителя и сразу же записываем его значение в файл
-		fprintf (array_output, "\n\n");
+	reverse(*Mas3, *M.Mas2);//вызываем функцию по обнаружению обратной матрицы ко второй матрице
+	output_matrix(*Mas3);
+	
+	
+	FILE *array_output = fopen("/home/hello/Рабочий стол/Основы\
+ программирования/array_output.txt", "w");
+	summ(*Mas3, *M.Mas1, *M.Mas2);//вызываем функцию суммирования
+	output_matrix_in_file(array_output, *Mas3);
+	fprintf (array_output, "\n\n");
 		
-		reverse(Mas1);//вызываем функцию по обнаружению обратной матрицы к первой матрице
-		for (i=0;i<3;i++) {//записываем результат функции в виде третьей матрицы в файл
-			fprintf(array_output,"\n");
-			for (j=0;j<3;j++) {
-				fprintf (array_output, "%f ", Mas3[i][j]);
-			}
-		}
-		fprintf (array_output, "\n\n");
+	product(*Mas3, *M.Mas1, *M.Mas2);//вызываем функцию умножения
+	output_matrix_in_file(array_output, *Mas3);
+	fprintf (array_output, "\n\n");
 		
-		reverse(Mas2);//вызываем функцию по обнаружению обратной матрицы ко второй матрице
-		for (i=0;i<3;i++) {//записываем результат функции в виде третьей матрицы в файл
-			fprintf(array_output,"\n");
-			for (j=0;j<3;j++) {
-				fprintf (array_output, "%f ", Mas3[i][j]);
-			}
-		}
-		fprintf (array_output, "\n\n");
-		fclose(array_output);
-	}
-	else {
-		printf ("You wrong");
-	}
+	fprintf (array_output,"\n\ndet1 = %f\n\ndet2 = %f\n\n", det(*M.Mas1), det(*M.Mas2));
+	//вызываем функцию по обнаружению определителя и сразу же записываем его значение в файл
+	fprintf (array_output, "\n\n");
+		
+	reverse(*Mas3, *M.Mas1);//вызываем функцию по обнаружению обратной матрицы к первой матрице
+	output_matrix_in_file(array_output, *Mas3);
+	fprintf (array_output, "\n\n");
+		
+	reverse(*Mas3, *M.Mas2);//вызываем функцию по обнаружению обратной матрицы ко второй матрице
+	output_matrix_in_file(array_output, *Mas3);
+	fprintf (array_output, "\n\n");
+	fclose(array_output);
 	return 0;
 }
