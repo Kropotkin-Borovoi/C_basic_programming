@@ -5,27 +5,20 @@ float Func (float x){
 	return 1 / logl(x);
 }
 
-float count_dx (int a, int b, int step) {
-	return (b - a) / step;	
-}
-
-float first_integral (int a, int b) {
-	return (Func(a) + Func(b)) / 2;
-}
-
-float full_integral (int step, int a, int b) {
-	float integral = first_integral(a, b);
-	for (int i = 1; i < step; i++) {
-		a += count_dx(a, b, step);
-		integral += Func(a);
+float solving_the_equation (float a, float b, int step, float (*F)(float )) { 
+	float dx, integral, result;
+	dx = (b - a) / step; //вычисляем длину каждого шага
+	integral = (F(a) + F(b)) / 2; /*это первый член суммы по методу 
+	трапеции */
+	for(int i = 1; i < step; i++) {//прибавляем каждый последующий шаг
+		a += dx;
+		integral += F(a);
 	}
-	return integral;
-}
-
-float character_definition (int a, int b, float result) {
+	result = dx * integral;
 	if (b < a) {
 		result *= (-1);
 	}
+	return result;
 }
 
 int main()
@@ -34,13 +27,11 @@ int main()
  by trapezoidal method\nEnter the lower integration limit, the\
  upper integration limit, the number of partitions\n");
 	int step;
-	float a, b, result;
+	float a, b;
 	
 	scanf ("%f %f %d", &a, &b, &step);
 	
-	result = count_dx(a, b, step) * full_integral(step, a, b);
-	
-	printf ("%f\n", character_definition(a, b, result));
+	printf ("%f\n", solving_the_equation(a, b, step, Func));
 	
 	return 0;
 }
