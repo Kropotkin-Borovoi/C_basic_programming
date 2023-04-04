@@ -3,19 +3,31 @@
 
 int main() 
 {
-	printf ("This program prints the number Pi up to the sign requested by the user\nEnter the number up to which you want to calculate the number Pi\n"); //приветствие
-	int accuracy=0, n=0;
-	double accuracy_limit=10, S1=0, S2=0;
+	printf ("This program prints the number Pi up to the sign requested\
+ by the user\nEnter the number up to which you want to calculate\
+ the number Pi\n");
+	int accuracy = 0, n = 1, i=0;
+	
+	float accuracy_limit = 10, S1 = 0, S2 = 0, S = 0;
+	
 	scanf ("%d", &accuracy);
+	
 	do {
-		n++;//для нечётных
-		S1=S2+(4.0/(2*n-1));//высчитывается верхняя сумма
-		n++;//для чётных
-		S2=S1-(4.0/(2*n-1));//высчитывается нижняя сумма
+		S1 = (float) 4 / n;//высчитывается первый член
+		n += 2;
+		S2 = (-1) * ((float) 4 / n);//высчитывается второй член
+		n += 2;
+		S = S1 + S2 + S;
+		i += 2;
 	}
-	while ((S1-S2)>pow(accuracy_limit, -accuracy));//проверка точности
-	printf("%f\n", round((S1+S2)/2/pow(accuracy_limit, -accuracy))*pow(accuracy_limit, -accuracy));//вывод числа Пи с той точностью, которой мы указали
-	printf("%d", n);//вывод количества слагаемых
+	while (S1> pow(accuracy_limit, -accuracy-2));//когда член будет
+//много меньше нашей точности, то прекращается вычисдение
+	
+	printf ("%f\n\n", round(S / pow(accuracy_limit, -accuracy)) *\
+ pow(accuracy_limit, -accuracy));
+	
+	printf ("%d\n\n", i);
+	
 	return 0;
 }
 
