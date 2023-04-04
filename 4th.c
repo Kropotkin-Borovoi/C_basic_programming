@@ -5,23 +5,19 @@ float Func (float x){
 	return 1 - cos(x);
 }
 
-float dFunc (float x){
+float dFunc (float x, float (*F)(float )){
 	float h=0.000001;
-	return (Func(x + h) - Func(x - h)) / (2 * h);
+	return (F(x + h) - F(x - h)) / (2 * h);
 }
 
-float count_sum (float x) {
-	return x - (Func(x) / dFunc(x));
-}
-
-float solving_the_equation (float x, int accuracy) {
+float solving_the_equation (float x, int accuracy, float (*Fu)(float )) {
 	float accuracy_limit = 10, S1, S2;
 	do {
-		S1 = count_sum(x);
-		S2 = count_sum(S1);
+		S1 = x - (Fu(x) / dFunc(x, Func));
+		S2 = S1 - (Fu(S1) / dFunc(S1, Func));
 		x = S2;
 	}
-	while ((Func(S1) / dFunc(S1)) > pow(accuracy_limit, -accuracy));
+	while ((Fu(S1) / dFunc(S1, Func)) > pow(accuracy_limit, -accuracy));
 	return S1 + S2;
 }
 
@@ -36,7 +32,7 @@ int main()
 	
 	scanf ("%f %d", &x, &accuracy);
 	
-	printf ("%f\n", round(solving_the_equation(x, accuracy) / 2 /\
+	printf ("%f\n", round(solving_the_equation(x, accuracy, Func) / 2 /\
  pow(accuracy_limit, -accuracy)) * pow(accuracy_limit, -accuracy));
 	
 	return 0;
