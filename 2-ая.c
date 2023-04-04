@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-float chech_prime_number (int j) {
+float check_prime_number (int j) {
 	int i, in_int, counter = 0;
 	float in_float;
 	for (i = 2; i < j; i++) {
