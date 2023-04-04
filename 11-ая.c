@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-#define data 100
+#define SIZE1 100
 
-char text [data];
+char text [SIZE1];
 
 int delete_symb (int number) {
 	for (int i = number; i < 100; i++) {
@@ -39,7 +39,7 @@ void first_capital_symbol (int number) {
 	}
 }
 
-void space_after_character (int number) {
+void insert_space_after_character (int number) {
 	if ((text[number] == '.') || (text[number] == ',') || \
  (text[number] == '!') || (text[number] == '?')) {
 		if (text[number + 1] != ' ') {
@@ -48,7 +48,7 @@ void space_after_character (int number) {
 	}
 }
 
-void capital_letter_after_space (int number) {
+/*void capital_letter_after_space (int number) {
 	if ((text[number] == '.') || (text[number] == '!') ||\
  (text[number] == '?')) {
 		if (text[number + 1] == ' ') {
@@ -58,8 +58,8 @@ void capital_letter_after_space (int number) {
 		}
 	}
 }
-
-void capital_letter_after_space_2 (int number) {
+*/
+void capital_letter_after_space (int number) {
 	if ((text[number - 1] == '.') || (text[number - 1] == '!') || \
  (text[number - 1] == '?')) {
 		if (text[number] == ' ') {
@@ -70,24 +70,26 @@ void capital_letter_after_space_2 (int number) {
 	}
 }
 
-void removal_of_extra_spaces (int number) {
+int removal_of_extra_spaces (int number) {
 	if (text[number] == ' ') {
 		if (text[number + 1] == ' ') {
 			number = delete_symb(number + 1) - 1;
 		}
 	}
+	return number;
 }
 
-void remove_a_space_before_a_character (int number) {
+int remove_a_space_before_a_character (int number) {
 	if (text[number] == ' ') {
 		if ((text[number + 1] == '.') || (text[number + 1] == ',') ||\
  (text[number + 1] == '!') || (text[number + 1] == '?')) {
 			number = delete_symb(number);
 		}
 	}
+	return number;
 }
 
-void correct_string (char *text, int size) {
+void correct_string (char *text, int SIZE) {
 	
 	int i=0;
 	
@@ -95,25 +97,25 @@ void correct_string (char *text, int size) {
 		
 	first_capital_symbol(i);
 	
-	for (i = 1; i < size - 2; i++) {
+	for (i = 1; i < SIZE - 2; i++) {
 		
-		space_after_character(i);
+		insert_space_after_character(i);
+		
+//		capital_letter_after_space(i);
 		
 		capital_letter_after_space(i);
 		
-		capital_letter_after_space_2(i);
-		
-		removal_of_extra_spaces(i);
+		i = removal_of_extra_spaces(i);
 				
-		remove_a_space_before_a_character(i);
+		i = remove_a_space_before_a_character(i);
 	}	
 }
 
 int main() {
 	printf ("This program edits the text you enter\n\
  Enter the text you want to correct:\n");
-	fgets (text, data, stdin);
-	correct_string(text, data);
+	fgets (text, SIZE1, stdin);
+	correct_string(text, SIZE1);
 	printf("%s", text);
 	return 0;
 }
