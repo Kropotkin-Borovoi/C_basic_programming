@@ -4,18 +4,18 @@
 
 char text [SIZE1];
 
-int delete_symb (int number) {
+int delete_symb (int number, char *text) {
 	for (int i = number; i < 100; i++) {
 		text[i] = text[i + 1];
 	}
 	return number - 1;
 }
 
-void replace_symb (int number) {
+void replace_symb (int number, char *text) {
 	text[number] = (int)text[number] - 32;
 }
 
-void insert_symb (int number) {
+void insert_symb (int number, char *text) {
 	int k, l;
 	k = text[number];
 	text[number] = ' ';
@@ -27,63 +27,52 @@ void insert_symb (int number) {
 	}
 }
 
-void remove_spaces_before_text (int number) {
+void remove_spaces_before_text (int number, char *text) {
 	while (text[number] == ' ') {
-		delete_symb(number);
+		delete_symb(number, text);
 	}
 }
 
-void first_capital_symbol (int number) {
+void first_capital_symbol (int number, char *text) {
 	if ((int)text[number] > 90) {
-		replace_symb(number);
+		replace_symb(number, text);
 	}
 }
 
-void insert_space_after_character (int number) {
+void insert_space_after_character (int number, char *text) {
 	if ((text[number] == '.') || (text[number] == ',') || \
  (text[number] == '!') || (text[number] == '?')) {
 		if (text[number + 1] != ' ') {
-			insert_symb(number + 1);
+			insert_symb(number + 1, text);
 		}
 	}
 }
 
-/*void capital_letter_after_space (int number) {
-	if ((text[number] == '.') || (text[number] == '!') ||\
- (text[number] == '?')) {
-		if (text[number + 1] == ' ') {
-			if ((int)text[number + 2] > 90) {
-				replace_symb(number + 2);
-			}
-		}
-	}
-}
-*/
-void capital_letter_after_space (int number) {
+void capital_letter_after_space (int number, char *text) {
 	if ((text[number - 1] == '.') || (text[number - 1] == '!') || \
  (text[number - 1] == '?')) {
 		if (text[number] == ' ') {
 			if ((int)text[number + 1] > 90) {
-				replace_symb(number + 1);
+				replace_symb(number + 1, text);
 			}
 		}
 	}
 }
 
-int removal_of_extra_spaces (int number) {
+int removal_of_extra_spaces (int number, char *text) {
 	if (text[number] == ' ') {
 		if (text[number + 1] == ' ') {
-			number = delete_symb(number + 1) - 1;
+			number = delete_symb(number + 1, text) - 1;
 		}
 	}
 	return number;
 }
 
-int remove_a_space_before_a_character (int number) {
+int remove_a_space_before_a_character (int number, char *text) {
 	if (text[number] == ' ') {
 		if ((text[number + 1] == '.') || (text[number + 1] == ',') ||\
  (text[number + 1] == '!') || (text[number + 1] == '?')) {
-			number = delete_symb(number);
+			number = delete_symb(number, text);
 		}
 	}
 	return number;
@@ -93,21 +82,19 @@ void correct_string (char *text, int SIZE) {
 	
 	int i=0;
 	
-	remove_spaces_before_text(i);
+	remove_spaces_before_text(i, text);
 		
-	first_capital_symbol(i);
+	first_capital_symbol(i, text);
 	
 	for (i = 1; i < SIZE - 2; i++) {
 		
-		insert_space_after_character(i);
+		insert_space_after_character(i, text);
 		
-//		capital_letter_after_space(i);
+		capital_letter_after_space(i, text);
 		
-		capital_letter_after_space(i);
-		
-		i = removal_of_extra_spaces(i);
+		i = removal_of_extra_spaces(i, text);
 				
-		i = remove_a_space_before_a_character(i);
+		i = remove_a_space_before_a_character(i, text);
 	}	
 }
 
@@ -119,3 +106,4 @@ int main() {
 	printf("%s", text);
 	return 0;
 }
+
