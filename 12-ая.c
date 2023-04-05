@@ -95,20 +95,10 @@ void correct_string (char *text, int SIZE) {
 	}	
 }
 
-void console_input () {
-	
-}
-
-void file_input () {
-	
-}
-
-void rellocate_buffer () {
-	
-}
-
-void trim_buffer () {
-	
+void from_text_to_text (char text1[], char text2[], int number) {
+	for (int i = 0; i < number; i++) {
+		text1[i] = text2[i];
+	}
 }
 
 int main() {
@@ -123,28 +113,25 @@ int main() {
 		i++;
 		if (i >= text_size) {
 			text_size += 10;
+			
 			char* auxiliary_text = (char*) malloc(i * sizeof(char));
-				for (int j = 0; j < i; j++) {
-					auxiliary_text[j] = text[j];
-				}
+			from_text_to_text(auxiliary_text, text, i);
 			free(text);
+			
 			char* text = (char*) malloc(text_size * sizeof(char));
-				for (int j = 0; j < i; j++) {
-					text[j] = auxiliary_text[j];
-				}
+			from_text_to_text(text, auxiliary_text, i);
 			free(auxiliary_text);
 		}
 	}
 	char* full_text = (char*) malloc((i-1) * sizeof(char));
-		for (int j = 0; j < i; j++) {
-			full_text[j] = text[j];
-		}
+		from_text_to_text(full_text, text, i);
 	free(text);
 	
 	
 	fgets (full_text, i, stdin);
 	correct_string(full_text, i);
 	printf("%s", full_text);
+	free(full_text);
 	return 0;
 }
 
