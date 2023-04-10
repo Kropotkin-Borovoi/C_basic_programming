@@ -95,7 +95,7 @@ void correct_string (char *text, int SIZE) {
 	}	
 }
 
-void from_text_to_text (char text1[], char text2[], int number) {
+void copy_text (char text1[], char text2[], int number) {
 	for (int i = 0; i < number; i++) {
 		text1[i] = text2[i];
 	}
@@ -105,28 +105,25 @@ int main() {
 	printf ("This program edits the text you enter\n\
  Enter the text you want to correct:\n");
 	
-	
 	int i = 0, text_size = 10;
 	char* text = (char*) malloc(text_size * sizeof(char));
 	while (text[i] != '#') {
 		scanf ("%c\n", &text[i]);
 		i++;
 		if (i >= text_size) {
-			text_size += 10;
+			text_size *= 2;
 			
-			char* auxiliary_text = (char*) malloc(i * sizeof(char));
-			from_text_to_text(auxiliary_text, text, i);
+			char* auxiliary_text = (char*) malloc(text_size * sizeof(char));
+			copy_text(auxiliary_text, text, i);
 			free(text);
 			
-			char* text = (char*) malloc(text_size * sizeof(char));
-			from_text_to_text(text, auxiliary_text, i);
-			free(auxiliary_text);
+			text = auxiliary_text;
 		}
 	}
-	char* full_text = (char*) malloc((i-1) * sizeof(char));
-		from_text_to_text(full_text, text, i);
-	free(text);
 	
+	char* full_text = (char*) malloc((i-1) * sizeof(char));
+	copy_text(full_text, text, i);
+	free(text);
 	
 	fgets (full_text, i, stdin);
 	correct_string(full_text, i);
@@ -134,5 +131,3 @@ int main() {
 	free(full_text);
 	return 0;
 }
-
-
