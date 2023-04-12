@@ -5,13 +5,13 @@
 char text [SIZE1];
 
 int delete_symb (int number, char *text) {
-	for (int i = number; i < 100; i++) {
+	for (int i = number; i < SIZE1; i++) {
 		text[i] = text[i + 1];
 	}
 	return number - 1;
 }
 
-void replace_symb (int number, char *text) {
+void make_capital (int number, char *text) {
 	text[number] = (int)text[number] - 32;
 }
 
@@ -19,7 +19,7 @@ void insert_symb (int number, char *text) {
 	int k, l;
 	k = text[number];
 	text[number] = ' ';
-	for (int i = number + 1; i < 100 - 2; i += 2) {
+	for (int i = number + 1; i < SIZE1 - 2; i += 2) {
 		l = text[i];
 		text[i] = k;
 		k = text[i + 1];
@@ -35,13 +35,13 @@ void remove_spaces_before_text (int number, char *text) {
 
 void first_capital_symbol (int number, char *text) {
 	if ((int)text[number] > 90) {
-		replace_symb(number, text);
+		make_capital(number, text);
 	}
 }
 
 void insert_space_after_character (int number, char *text) {
 	if ((text[number] == '.') || (text[number] == ',') || \
- (text[number] == '!') || (text[number] == '?')) {
+		(text[number] == '!') || (text[number] == '?')) {
 		if (text[number + 1] != ' ') {
 			insert_symb(number + 1, text);
 		}
@@ -50,10 +50,10 @@ void insert_space_after_character (int number, char *text) {
 
 void capital_letter_after_space (int number, char *text) {
 	if ((text[number - 1] == '.') || (text[number - 1] == '!') || \
- (text[number - 1] == '?')) {
+		(text[number - 1] == '?')) {
 		if (text[number] == ' ') {
 			if ((int)text[number + 1] > 90) {
-				replace_symb(number + 1, text);
+				make_capital(number + 1, text);
 			}
 		}
 	}
@@ -71,7 +71,7 @@ int removal_of_extra_spaces (int number, char *text) {
 int remove_a_space_before_a_character (int number, char *text) {
 	if (text[number] == ' ') {
 		if ((text[number + 1] == '.') || (text[number + 1] == ',') ||\
- (text[number + 1] == '!') || (text[number + 1] == '?')) {
+			(text[number + 1] == '!') || (text[number + 1] == '?')) {
 			number = delete_symb(number, text);
 		}
 	}
@@ -106,4 +106,3 @@ int main() {
 	printf("%s", text);
 	return 0;
 }
-
