@@ -31,8 +31,8 @@ void Compare_n_Swap_Absolutely (int *numb1, int *numb2) {/*сравнение п
 }
 
 int Sort(int* DMas,
-		 int array_size,
-		 void (*Compare) (int *, int *)) {//сортировка
+	 int array_size,
+	 void (*Compare) (int *, int *)) {//сортировка
 		for (int i = 1; i <= array_size - 1; i++) {
 			for (int j = i; j <= array_size; j++) {
 				Compare (&DMas[i], &DMas[j]);
