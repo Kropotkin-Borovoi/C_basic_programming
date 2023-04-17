@@ -8,7 +8,7 @@ int delete_symb (int number, char *text) {
 	return number - 1;
 }
 
-void replace_symb (int number, char *text) {
+void make_capital (int number, char *text) {
 	text[number] = (int)text[number] - 32;
 }
 
@@ -32,7 +32,7 @@ void remove_spaces_before_text (int number, char *text) {
 
 void first_capital_symbol (int number, char *text) {
 	if ((int)text[number] > 90) {
-		replace_symb(number, text);
+		make_capital(number, text);
 	}
 }
 
@@ -50,7 +50,7 @@ void capital_letter_after_space (int number, char *text) {
  (text[number - 1] == '?')) {
 		if (text[number] == ' ') {
 			if ((int)text[number + 1] > 90) {
-				replace_symb(number + 1, text);
+				make_capital(number + 1, text);
 			}
 		}
 	}
@@ -95,7 +95,7 @@ void correct_string (char *text, int SIZE) {
 	}	
 }
 
-void copy_text (char text1[], char text2[], int number) {
+void copy_text (char* text1, char* text2, int number) {
 	for (int i = 0; i < number; i++) {
 		text1[i] = text2[i];
 	}
