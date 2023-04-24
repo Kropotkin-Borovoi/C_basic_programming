@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
 
 int delete_symb (int number, char *text) {
 	for (int i = number; i < 100; i++) {
@@ -9,10 +11,10 @@ int delete_symb (int number, char *text) {
 }
 
 void make_capital (int number, char *text) {
-	text[number] = (int)text[number] - 32;
+	text[number] = toupper(text[number]);
 }
 
-void insert_symb (int number, char *text) {
+void insert_space (int number, char *text) {
 	int k, l;
 	k = text[number];
 	text[number] = ' ';
@@ -25,53 +27,30 @@ void insert_symb (int number, char *text) {
 }
 
 void remove_spaces_before_text (int number, char *text) {
-	while (text[number] == ' ') {
-		delete_symb(number, text);
-	}
+	delete_symb(number, text);
 }
 
 void first_capital_symbol (int number, char *text) {
-	if ((int)text[number] > 90) {
-		make_capital(number, text);
-	}
+	make_capital(number, text);
 }
 
 void insert_space_after_character (int number, char *text) {
-	if ((text[number] == '.') || (text[number] == ',') || \
- (text[number] == '!') || (text[number] == '?')) {
-		if (text[number + 1] != ' ') {
-			insert_symb(number + 1, text);
-		}
-	}
+	insert_space(number, text);
 }
 
 void capital_letter_after_space (int number, char *text) {
-	if ((text[number - 1] == '.') || (text[number - 1] == '!') || \
- (text[number - 1] == '?')) {
-		if (text[number] == ' ') {
-			if ((int)text[number + 1] > 90) {
-				make_capital(number + 1, text);
-			}
-		}
-	}
+	make_capital(number, text);
 }
 
-int removal_of_extra_spaces (int number, char *text) {
-	if (text[number] == ' ') {
-		if (text[number + 1] == ' ') {
-			number = delete_symb(number + 1, text) - 1;
-		}
-	}
+int removal_of_extra_space (int number, char *text) {
+	number = delete_symb(number, text) - 1;
+	
 	return number;
 }
 
 int remove_a_space_before_a_character (int number, char *text) {
-	if (text[number] == ' ') {
-		if ((text[number + 1] == '.') || (text[number + 1] == ',') ||\
- (text[number + 1] == '!') || (text[number + 1] == '?')) {
-			number = delete_symb(number, text);
-		}
-	}
+	number = delete_symb(number, text);
+	
 	return number;
 }
 
@@ -79,38 +58,68 @@ void correct_string (char *text, int SIZE) {
 	
 	int i=0;
 	
-	remove_spaces_before_text(i, text);
+	while (text[i] == ' ') {
+		remove_spaces_before_text(i, text);
+	}
 		
-	first_capital_symbol(i, text);
+	if (text[i] > 'a') {
+		first_capital_symbol(i, text);
+	}
 	
 	for (i = 1; i < SIZE - 2; i++) {
 		
-		insert_space_after_character(i, text);
+		if ((text[i] == '.') || (text[i] == ',') || \
+			(text[i] == '!') || (text[i] == '?')) {
+			if (text[i + 1] != ' ') {
+				insert_space_after_character(i + 1, text);
+			}
+		}
 		
-		capital_letter_after_space(i, text);
+		if ((text[i - 1] == '.') || (text[i - 1] == '!') || \
+			(text[i - 1] == '?')) {
+			if (text[i] == ' ') {
+				if (text[i + 1] > 'a') {
+					capital_letter_after_space(i + 1, text);
+				}
+			}
+		}
 		
-		i = removal_of_extra_spaces(i, text);
+		if (text[i] == ' ') {
+			if (text[i + 1] == ' ') {
+				i = removal_of_extra_space(i + 1, text);
+			}
+		}
+		
+		if (text[i] == ' ') {
+			if ((text[i + 1] == '.') || (text[i + 1] == ',') ||\
+				(text[i + 1] == '!') || (text[i + 1] == '?')) {
+				i = remove_a_space_before_a_character(i, text);
+			}
+		}
 				
-		i = remove_a_space_before_a_character(i, text);
+		
 	}	
 }
 
 void copy_text (char* text1, char* text2, int number) {
-	for (int i = 0; i < number; i++) {
-		text1[i] = text2[i];
-	}
+	strcpy(text1, text2);
 }
 
 int main() {
 	printf ("This program edits the text you enter\n\
- Enter the text you want to correct:\n");
+			 \rEnter the text you want to correct:\n");
 	
 	int i = 0, text_size = 10;
 	char* text = (char*) malloc(text_size * sizeof(char));
-	while (text[i] != '#') {
-		scanf ("%c\n", &text[i]);
-		i++;
-		if (i >= text_size) {
+	
+	do {
+		text[i] = getchar();
+		printf ("\n%c, %d\n", text[i], i);
+		if (text[i] == '#') {
+			text[i]='\0';
+			break;
+		}
+		if (i == text_size - 1) {
 			text_size *= 2;
 			
 			char* auxiliary_text = (char*) malloc(text_size * sizeof(char));
@@ -118,16 +127,22 @@ int main() {
 			free(text);
 			
 			text = auxiliary_text;
+
 		}
-	}
-	
+		i++;
+  } while (true);
+		
 	char* full_text = (char*) malloc((i-1) * sizeof(char));
 	copy_text(full_text, text, i);
+	
 	free(text);
 	
-	fgets (full_text, i, stdin);
 	correct_string(full_text, i);
-	printf("%s", full_text);
+	
+	for (int j = 0; j < i; j++) {
+		printf ("%c", full_text[j]);
+	}
+	
 	free(full_text);
 	return 0;
 }
