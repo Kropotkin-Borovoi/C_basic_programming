@@ -6,13 +6,13 @@ typedef struct {
 	int N;
 } Matrix;
 
-void initMatrix (Matrix &Mas1) {
-	Mas1.N = 3;
+void initMatrix (Matrix *Mas1) {
+	Mas1->N = 3;
 }
 
 Matrix summ (Matrix Mas1, Matrix Mas2) {//функция по сложению
 	Matrix result;
-	initMatrix (result);
+	initMatrix (&result);
 	
 	for (int i = 0; i < result.N; i++) {
 		for (int j = 0; j < result.N; j++) {
@@ -25,7 +25,7 @@ Matrix summ (Matrix Mas1, Matrix Mas2) {//функция по сложению
 
 Matrix multiply (Matrix Mas1, Matrix Mas2) {//функция по умножению
 	Matrix result;
-	initMatrix (result);
+	initMatrix (&result);
 	
 	for (int i = 0; i < result.N; i++) {
 		for (int j = 0; j < result.N; j++) {
@@ -53,7 +53,7 @@ float det (Matrix Mas1) {//функция по поиску определите
 
 Matrix reverse (Matrix Mas1) {//функция по поиску обратной матрицы
 	Matrix result;
-	initMatrix(result);
+	initMatrix(&result);
 	
 	result.Mas[0] = (Mas1.Mas[1 * Mas1.N + 1] * Mas1.Mas[2 * Mas1.N + 2] - Mas1.Mas[2 * Mas1.N + 1] * Mas1.Mas[1 * Mas1.N + 2]) / det(Mas1);
 	result.Mas[1] = (Mas1.Mas[0 * Mas1.N + 1] * Mas1.Mas[2 * Mas1.N + 2] - Mas1.Mas[2 * Mas1.N + 1] * Mas1.Mas[0 * Mas1.N + 2]) / det(Mas1);
@@ -111,12 +111,23 @@ void test_Mas_summ () {
 	Matrix Mas2;
 	Matrix Mas_summ;
 	
-	Mas1 = {1, 2, 3, 7, 5, 6, 7, 8, 9};
-	Mas2 = {3, 4, 7, 2, 8, 9, 0, 4, 1};
-	Mas_summ = {4, 6, 10, 9, 13, 15, 7, 12, 10};
+	float mat1[9] = {1, 2, 3, 7, 5, 6, 7, 8, 9};  
+	for (int i = 0; i < 9; i++) {
+		Mas1.Mas[i] = mat1[i]; 
+	}
 	
-	initMatrix(Mas1);
-	initMatrix(Mas2);
+	float mat2[9] = {3, 4, 7, 2, 8, 9, 0, 4, 1};  
+	for (int i = 0; i < 9; i++) {
+		Mas2.Mas[i] = mat2[i]; 
+	}
+	 
+	float mat_summ[9] = {4, 6, 10, 9, 13, 15, 7, 12, 10};  
+	for (int i = 0; i < 9; i++) {
+		Mas_summ.Mas[i] = mat_summ[i]; 
+	}
+	
+	initMatrix(&Mas1);
+	initMatrix(&Mas2);
 	
 	Matrix Mas_summ_;
 	Mas_summ_ = summ(Mas1, Mas2);
@@ -137,12 +148,23 @@ void test_Mas_multiply (){
 	Matrix Mas2;
 	Matrix Mas_multiply;
 	
-	Mas1 = {1, 2, 3, 7, 5, 6, 7, 8, 9};
-	Mas2 = {3, 4, 7, 2, 8, 9, 0, 4, 1};
-	Mas_multiply = {7, 32, 28, 31, 92, 100, 37, 128, 130};
+	float mat1[9] = {1, 2, 3, 7, 5, 6, 7, 8, 9};  
+	for (int i = 0; i < 9; i++) {
+		Mas1.Mas[i] = mat1[i]; 
+	}
 	
-	initMatrix(Mas1);
-	initMatrix(Mas2);
+	float mat2[9] = {3, 4, 7, 2, 8, 9, 0, 4, 1};  
+	for (int i = 0; i < 9; i++) {
+		Mas2.Mas[i] = mat2[i]; 
+	}
+	
+	float mat_multiply[9] = {7, 32, 28, 31, 92, 100, 37, 128, 130};  
+	for (int i = 0; i < 9; i++) {
+		Mas_multiply.Mas[i] = mat_multiply[i]; 
+	}
+
+	initMatrix(&Mas1);
+	initMatrix(&Mas2);
 	
 	Matrix Mas_multiply_;
 	Mas_multiply_ = multiply(Mas1, Mas2);
@@ -162,10 +184,17 @@ void test_Mas1_reverse (){
 	Matrix Mas1;
 	Matrix Mas1_reverse;
 	
-	Mas1 = {1, 2, 3, 7, 5, 6, 7, 8, 9};
-	Mas1_reverse = {-0.1666, -0.3333, -0.1666, 1.1666, -0.6666, -0.8333, 1.1666, -0.3333, -0.5};
+	float mat1[9] = {1, 2, 3, 7, 5, 6, 7, 8, 9};  
+	for (int i = 0; i < 9; i++) {
+		Mas1.Mas[i] = mat1[i]; 
+	}
+	
+	float mat1_reverse[9] = {-0.1666, -0.3333, -0.1666, 1.1666, -0.6666, -0.8333, 1.1666, -0.3333, -0.5};  
+	for (int i = 0; i < 9; i++) {
+		Mas1_reverse.Mas[i] = mat1_reverse[i]; 
+	}
 
-	initMatrix(Mas1);
+	initMatrix(&Mas1);
 	
 	Matrix Mas1_reverse_;
 	Mas1_reverse_ = reverse(Mas1);
@@ -185,10 +214,17 @@ void test_Mas2_reverse (){
 	Matrix Mas2;
 	Matrix Mas2_reverse;
 	
-	Mas2 = {3, 4, 7, 2, 8, 9, 0, 4, 1};
-	Mas2_reverse = {0.7777, 0.6666, 0.5555, -0.0555, -0.0833, -0.3611, -0.2222, -0.3333, -0.4444};
+	float mat2[9] = {3, 4, 7, 2, 8, 9, 0, 4, 1};  
+	for (int i = 0; i < 9; i++) {
+		Mas2.Mas[i] = mat2[i]; 
+	}
+	
+	float mat2_reverse[9] = {0.7777, 0.6666, 0.5555, -0.0555, -0.0833, -0.3611, -0.2222, -0.3333, -0.4444};  
+	for (int i = 0; i < 9; i++) {
+		Mas2_reverse.Mas[i] = mat2_reverse[i]; 
+	}
 
-	initMatrix(Mas2);
+	initMatrix(&Mas2);
 	
 	Matrix Mas2_reverse_;
 	Mas2_reverse_ = reverse(Mas2);
@@ -207,11 +243,14 @@ void test_Mas2_reverse (){
 void test_Mas1_det(){
 	Matrix Mas1;
 	
-	Mas1 = {1, 2, 3, 7, 5, 6, 7, 8, 9};
+	float mat1[9] = {1, 2, 3, 7, 5, 6, 7, 8, 9};  
+	for (int i = 0; i < 9; i++) {
+		Mas1.Mas[i] = mat1[i]; 
+	}
 	
 	float det1 = 18;
 	
-	initMatrix(Mas1);
+	initMatrix(&Mas1);
 	
 	float det1_1 = det(Mas1);
 	
@@ -225,11 +264,14 @@ void test_Mas1_det(){
 void test_Mas2_det(){
 	Matrix Mas2;
 	
-	Mas2 = {3, 4, 7, 2, 8, 9, 0, 4, 1};
+	float mat2[9] = {3, 4, 7, 2, 8, 9, 0, 4, 1};  
+	for (int i = 0; i < 9; i++) {
+		Mas2.Mas[i] = mat2[i]; 
+	}
 	
 	float det2 = -36;
 	
-	initMatrix(Mas2);
+	initMatrix(&Mas2);
 	
 	float det2_2 = det(Mas2);
 	
@@ -248,9 +290,9 @@ int main()
 	Matrix m2;
 	Matrix m3;
 	
-	initMatrix (m1);
-	initMatrix (m2);
-	initMatrix (m3);
+	initMatrix (&m1);
+	initMatrix (&m2);
+	initMatrix (&m3);
 	
 	test_Mas_summ();
 	test_Mas_multiply();
