@@ -154,9 +154,13 @@ void test_Mas_summ () {
 	Matrix Mas2;
 	Matrix Mas_summ_expected;
 	
-	Mas1.Mas = (float*) malloc(3 * 3 * sizeof(float));
-	Mas2.Mas = (float*) malloc(3 * 3 * sizeof(float));
-	Mas_summ_expected.Mas = (float*) malloc(3 * 3 * sizeof(float));
+	initMatrix(&Mas1, 3, 3);
+	initMatrix(&Mas2, 3, 3);
+	initMatrix(&Mas_summ_expected, 3, 3);
+	
+	Mas1.Mas = (float*) malloc(Mas1.length * Mas1.width * sizeof(float));
+	Mas2.Mas = (float*) malloc(Mas1.length * Mas1.width * sizeof(float));
+	Mas_summ_expected.Mas = (float*) malloc(Mas_summ_expected.length * Mas_summ_expected.width * sizeof(float));
 	
 	float Mas1_data[9] = {1, 2, 3, 7, 5, 6, 7, 8, 9};  
 	for (int i = 0; i < 9; i++) {
@@ -173,17 +177,17 @@ void test_Mas_summ () {
 		Mas_summ_expected.Mas[i] = Mas_summ_data[i]; 
 	}
 	
-	initMatrix(&Mas1, 3, 3);
-	initMatrix(&Mas2, 3, 3);
-	
 	Matrix Mas_summ_gotten;
-	Mas_summ_gotten.Mas = (float*) malloc(3 * 3 * sizeof(float));
+	
+	initMatrix(&Mas_summ_gotten, 3, 3);
+	
+	Mas_summ_gotten.Mas = (float*) malloc(Mas_summ_gotten.length * Mas_summ_gotten.width * sizeof(float));
 	Mas_summ_gotten = summ(Mas1, Mas2);
 	
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			if(fabs(Mas_summ_expected.Mas[i * Mas1.length + j] - Mas_summ_gotten.Mas[i * Mas1.length + j]) > pow(10, -4)) {
-				printf ("\nMas_summ_expected.Mas[%d] == %f\nMas_summ_gotten.Mas[%d] == %f", i * Mas1.length + j, Mas_summ_expected.Mas[i * Mas1.length + j], i * Mas1.length + j, Mas_summ_gotten.Mas[i * Mas1.length + j]);
+			if(fabs(Mas_summ_expected.Mas[i * Mas_summ_expected.length + j] - Mas_summ_gotten.Mas[i * Mas_summ_gotten.length + j]) > pow(10, -4)) {
+				printf ("\nMas_summ_expected.Mas[%d] == %f\nMas_summ_gotten.Mas[%d] == %f", i * Mas_summ_expected.length + j, Mas_summ_expected.Mas[i * Mas_summ_expected.length + j], i * Mas_summ_gotten.length + j, Mas_summ_gotten.Mas[i * Mas_summ_gotten.length + j]);
 				printf("error");
 				exit(1);
 			}
@@ -196,9 +200,13 @@ void test_Mas_multiply (){
 	Matrix Mas2;
 	Matrix Mas_multiply_expected;
 	
-	Mas1.Mas = (float*) malloc(3 * 3 * sizeof(float));
-	Mas2.Mas = (float*) malloc(3 * 3 * sizeof(float));
-	Mas_multiply_expected.Mas = (float*) malloc(3 * 3 * sizeof(float));
+	initMatrix(&Mas1, 3, 3);
+	initMatrix(&Mas2, 3, 3);
+	initMatrix(&Mas_multiply_expected, 3, 3);
+	
+	Mas1.Mas = (float*) malloc(Mas1.length * Mas1.width * sizeof(float));
+	Mas2.Mas = (float*) malloc(Mas2.length * Mas2.width * sizeof(float));
+	Mas_multiply_expected.Mas = (float*) malloc(Mas_multiply_expected.length * Mas_multiply_expected.width * sizeof(float));
 	
 	float Mas1_data[9] = {1, 2, 3, 7, 5, 6, 7, 8, 9};  
 	for (int i = 0; i < 9; i++) {
@@ -214,18 +222,18 @@ void test_Mas_multiply (){
 	for (int i = 0; i < 9; i++) {
 		Mas_multiply_expected.Mas[i] = Mas_multiply_data[i]; 
 	}
-
-	initMatrix(&Mas1, 3, 3);
-	initMatrix(&Mas2, 3, 3);
 	
 	Matrix Mas_multiply_gotten;
-	Mas_multiply_gotten.Mas = (float*) malloc(3 * 3 * sizeof(float));
+	
+	initMatrix(&Mas_multiply_gotten, 3, 3);
+	
+	Mas_multiply_gotten.Mas = (float*) malloc(Mas_multiply_gotten.length * Mas_multiply_gotten.width * sizeof(float));
 	Mas_multiply_gotten = multiply(Mas1, Mas2);
 	
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			if(fabs(Mas_multiply_expected.Mas[i * Mas1.length + j] - Mas_multiply_gotten.Mas[i * Mas1.length + j]) > pow(10, -4)) {
-				printf ("\nMas_multiply_expected.Mas[%d] == %f\nMas_multiply_gotten.Mas[%d] == %f", i * Mas1.length + j, Mas_multiply_expected.Mas[i * Mas1.length + j], i * Mas1.length + j, Mas_multiply_gotten.Mas[i * Mas1.length + j]);
+			if(fabs(Mas_multiply_expected.Mas[i * Mas_multiply_expected.length + j] - Mas_multiply_gotten.Mas[i * Mas_multiply_gotten.length + j]) > pow(10, -4)) {
+				printf ("\nMas_multiply_expected.Mas[%d] == %f\nMas_multiply_gotten.Mas[%d] == %f", i * Mas_multiply_expected.length + j, Mas_multiply_expected.Mas[i * Mas_multiply_expected.length + j], i * Mas_multiply_gotten.length + j, Mas_multiply_gotten.Mas[i * Mas_multiply_gotten.length + j]);
 				printf("error");
 				exit(1);
 			}
@@ -237,8 +245,11 @@ void test_Mas1_reverse (){
 	Matrix Mas1;
 	Matrix Mas1_reverse_expected;
 	
-	Mas1.Mas = (float*) malloc(3 * 3 * sizeof(float));
-	Mas1_reverse_expected.Mas = (float*) malloc(3 * 3 * sizeof(float));
+	initMatrix(&Mas1, 3, 3);
+	initMatrix(&Mas1_reverse_expected, 3, 3);
+	
+	Mas1.Mas = (float*) malloc(Mas1.length * Mas1.width * sizeof(float));
+	Mas1_reverse_expected.Mas = (float*) malloc(Mas1_reverse_expected.length * Mas1_reverse_expected.width * sizeof(float));
 	
 	float Mas1_data[9] = {1, 2, 3, 7, 5, 6, 7, 8, 9};  
 	for (int i = 0; i < 9; i++) {
@@ -249,17 +260,18 @@ void test_Mas1_reverse (){
 	for (int i = 0; i < 9; i++) {
 		Mas1_reverse_expected.Mas[i] = Mas1_reverse_data[i]; 
 	}
-
-	initMatrix(&Mas1, 3, 3);
 	
 	Matrix Mas1_reverse_gotten;
-	Mas1_reverse_gotten.Mas = (float*) malloc(3 * 3 * sizeof(float));
+	
+	initMatrix(&Mas1_reverse_gotten, 3, 3);
+	
+	Mas1_reverse_gotten.Mas = (float*) malloc(Mas1_reverse_gotten.length * Mas1_reverse_gotten.width * sizeof(float));
 	Mas1_reverse_gotten = reverse(Mas1);
 	
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			if(fabs(Mas1_reverse_expected.Mas[i * Mas1.length + j] - Mas1_reverse_gotten.Mas[i * Mas1.length + j]) > pow(10, -4)) {
-				printf ("\nMas1_reverse_expected.Mas[%d] == %f\nMas1_reverse_gotten.Mas[%d] == %f", i * Mas1.length + j, Mas1_reverse_expected.Mas[i * Mas1.length + j], i * Mas1.length + j, Mas1_reverse_gotten.Mas[i * Mas1.length + j]);
+			if(fabs(Mas1_reverse_expected.Mas[i * Mas1_reverse_expected.length + j] - Mas1_reverse_gotten.Mas[i * Mas1_reverse_gotten.length + j]) > pow(10, -4)) {
+				printf ("\nMas1_reverse_expected.Mas[%d] == %f\nMas1_reverse_gotten.Mas[%d] == %f", i * Mas1_reverse_expected.length + j, Mas1_reverse_expected.Mas[i * Mas1_reverse_expected.length + j], i * Mas1_reverse_gotten.length + j, Mas1_reverse_gotten.Mas[i * Mas1_reverse_gotten.length + j]);
 				printf("error");
 				exit(1);
 			}
@@ -271,8 +283,11 @@ void test_Mas2_reverse (){
 	Matrix Mas2;
 	Matrix Mas2_reverse_expected;
 	
-	Mas2.Mas = (float*) malloc(3 * 3 * sizeof(float));
-	Mas2_reverse_expected.Mas = (float*) malloc(3 * 3 * sizeof(float));
+	initMatrix(&Mas2, 3, 3);
+	initMatrix(&Mas2_reverse_expected, 3, 3);
+	
+	Mas2.Mas = (float*) malloc(Mas2.length * Mas2.width * sizeof(float));
+	Mas2_reverse_expected.Mas = (float*) malloc(Mas2_reverse_expected.length * Mas2_reverse_expected.width * sizeof(float));
 	
 	float Mas2_data[9] = {3, 4, 7, 2, 8, 9, 0, 4, 1};  
 	for (int i = 0; i < 9; i++) {
@@ -283,17 +298,18 @@ void test_Mas2_reverse (){
 	for (int i = 0; i < 9; i++) {
 		Mas2_reverse_expected.Mas[i] = Mas2_reverse_data[i]; 
 	}
-
-	initMatrix(&Mas2, 3, 3);
 	
 	Matrix Mas2_reverse_gotten;
-	Mas2_reverse_gotten.Mas = (float*) malloc(3 * 3 * sizeof(float));
+	
+	initMatrix(&Mas2_reverse_gotten, 3, 3);
+	
+	Mas2_reverse_gotten.Mas = (float*) malloc(Mas2_reverse_gotten.length * Mas2_reverse_gotten.width * sizeof(float));
 	Mas2_reverse_gotten = reverse(Mas2);
 	
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			if(fabs(Mas2_reverse_expected.Mas[i * Mas2.length + j] - Mas2_reverse_gotten.Mas[i * Mas2.length + j]) > pow(10, -4)) {
-				printf ("\nMas2_reverse_expected.Mas[%d] == %f\nMas2_reverse_gotten.Mas[%d] == %f", i * Mas2.length + j, Mas2_reverse_expected.Mas[i * Mas2.length + j], i * Mas2.length + j, Mas2_reverse_gotten.Mas[i * Mas2.length + j]);
+			if(fabs(Mas2_reverse_expected.Mas[i * Mas2_reverse_expected.length + j] - Mas2_reverse_gotten.Mas[i * Mas2_reverse_gotten.length + j]) > pow(10, -4)) {
+				printf ("\nMas2_reverse_expected.Mas[%d] == %f\nMas2_reverse_gotten.Mas[%d] == %f", i * Mas2_reverse_expected.length + j, Mas2_reverse_expected.Mas[i * Mas2_reverse_expected.length + j], i * Mas2_reverse_gotten.length + j, Mas2_reverse_gotten.Mas[i * Mas2_reverse_gotten.length + j]);
 				printf("error");
 				exit(1);
 			}
@@ -304,7 +320,9 @@ void test_Mas2_reverse (){
 void test_Mas1_det(){
 	Matrix Mas1;
 	
-	Mas1.Mas = (float*) malloc(3 * 3 * sizeof(float));
+	initMatrix(&Mas1, 3, 3);
+	
+	Mas1.Mas = (float*) malloc(Mas1.length * Mas1.width * sizeof(float));
 	
 	float Mas1_data[9] = {1, 2, 3, 7, 5, 6, 7, 8, 9};  
 	for (int i = 0; i < 9; i++) {
@@ -312,8 +330,6 @@ void test_Mas1_det(){
 	}
 	
 	float det1_expected = 18;
-	
-	initMatrix(&Mas1, 3, 3);
 	
 	float det1_gotten = Det(Mas1);
 	
@@ -327,7 +343,9 @@ void test_Mas1_det(){
 void test_Mas2_det(){
 	Matrix Mas2;
 	
-	Mas2.Mas = (float*) malloc(3 * 3 * sizeof(float));
+	initMatrix(&Mas2, 3, 3);
+	
+	Mas2.Mas = (float*) malloc(Mas2.length * Mas2.width * sizeof(float));
 	
 	float Mas2_data[9] = {3, 4, 7, 2, 8, 9, 0, 4, 1};  
 	for (int i = 0; i < 9; i++) {
@@ -335,8 +353,6 @@ void test_Mas2_det(){
 	}
 	
 	float det2_expected = -36;
-	
-	initMatrix(&Mas2, 3, 3);
 	
 	float det2_gotten = Det(Mas2);
 	
@@ -366,13 +382,13 @@ int main()
 	Matrix Mas2;
 	Matrix Mas3;
 	
-	Mas1.Mas = (float*) malloc(length * width * sizeof(float));
-	Mas2.Mas = (float*) malloc(length * width * sizeof(float));
-	Mas3.Mas = (float*) malloc(length * width * sizeof(float));
-	
 	initMatrix (&Mas1, length, width);
 	initMatrix (&Mas2, length, width);
 	initMatrix (&Mas3, length, width);
+	
+	Mas1.Mas = (float*) malloc(Mas1.length * Mas1.width * sizeof(float));
+	Mas2.Mas = (float*) malloc(Mas2.length * Mas2.width * sizeof(float));
+	Mas3.Mas = (float*) malloc(Mas3.length * Mas3.width * sizeof(float));
 	
 	printf("Enter '0'(random) if you want to enter values by the\
 			 random or enter '1'(file) if you want to read from a \
