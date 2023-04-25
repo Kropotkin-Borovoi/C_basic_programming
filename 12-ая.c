@@ -96,12 +96,17 @@ void correct_string (char *text, int SIZE) {
 				i = remove_a_space_before_a_character(i, text);
 			}
 		}
-				
+		
+		if (text[i-1] >= 'a') {
+			if (text[i] < 'Z') {
+				text[i] = tolower(text[i]);
+			} 
+		}
 		
 	}	
 }
 
-void copy_text (char* text1, char* text2, int number) {
+void copy_text (char* text1, char* text2) {
 	strcpy(text1, text2);
 }
 
@@ -114,33 +119,37 @@ int main() {
 	
 	do {
 		text[i] = getchar();
-		printf ("\n%c, %d\n", text[i], i);
 		if (text[i] == '#') {
 			text[i]='\0';
 			break;
 		}
+
 		if (i == text_size - 1) {
 			text_size *= 2;
-			
 			char* auxiliary_text = (char*) malloc(text_size * sizeof(char));
-			copy_text(auxiliary_text, text, i);
+	
+			copy_text(auxiliary_text, text);
+	
 			free(text);
-			
+	
 			text = auxiliary_text;
-
 		}
 		i++;
-  } while (true);
+		
+	} while (1);
 		
 	char* full_text = (char*) malloc((i-1) * sizeof(char));
-	copy_text(full_text, text, i);
+	copy_text(full_text, text);	
 	
 	free(text);
 	
 	correct_string(full_text, i);
 	
-	for (int j = 0; j < i; j++) {
-		printf ("%c", full_text[j]);
+	i = 0;
+	
+	while (full_text[i] != '\0') {
+		printf ("%c", full_text[i]);
+		i++;
 	}
 	
 	free(full_text);
