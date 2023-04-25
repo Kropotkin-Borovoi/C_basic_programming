@@ -97,7 +97,7 @@ void correct_string (char *text, int SIZE) {
 			}
 		}
 		
-		if ((text[i-1] >= 'a')||(text[i-1] == ' ')) {
+		if ((text[i-1] >= 'a')||(text[i-1] == ' ')||(text[i-1] >= 'A')) {
 			if (text[i] < 'Z') {
 				text[i] = tolower(text[i]);
 			} 
