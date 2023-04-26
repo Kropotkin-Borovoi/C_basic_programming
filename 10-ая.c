@@ -33,9 +33,9 @@ Matrix multiply (Matrix Mas1, Matrix Mas2) {//функция по умножен
 	
 	for (int i = 0; i < Mas1.length; i++) {
 		for (int j = 0; j < Mas2.width; j++) {
-			result.Mas[i * result.length + j] = 0;
+			result.Mas[i * result.width + j] = 0;
 			for (int k = 0; k < Mas1.width; k++) {
-				result.Mas[i * result.length + j] += Mas1.Mas[i * Mas1.length + k] * Mas2.Mas[k * Mas2.width + j];	 
+				result.Mas[i * result.width + j] += Mas1.Mas[i * Mas1.width + k] * Mas2.Mas[k * Mas2.width + j];	 
 			}
 		}
 	}
@@ -124,7 +124,7 @@ void PrintMatrix (Matrix Mas1) {
 	for (int i = 0; i < Mas1.length; i++) {
 		printf ("\n");
 		for (int j = 0; j < Mas1.width; j++) {
-			printf ("%f ", Mas1.Mas[i * Mas1.length + j]);
+			printf ("%f ", Mas1.Mas[i * Mas1.width + j]);
 		}
 	}
 }
@@ -814,7 +814,7 @@ void test3_Mas_multiply (){
 		Mas2.Mas[i] = Mas2_data[i]; 
 	}
 	
-	float Mas_multiply_data[8] = {187, 193, 275, 251, 289, 287, 392, 326};  
+	float Mas_multiply_data[8] = {187, 193, 275, 251, 292, 184, 392, 326};  
 	for (int i = 0; i < 8; i++) {
 		Mas_multiply_expected.Mas[i] = Mas_multiply_data[i]; 
 	}
@@ -826,12 +826,10 @@ void test3_Mas_multiply (){
 	Mas_multiply_gotten.Mas = (float*) malloc(Mas_multiply_gotten.length * Mas_multiply_gotten.width * sizeof(float));
 	Mas_multiply_gotten = multiply(Mas1, Mas2);
 	
-	PrintMatrix (Mas_multiply_gotten);
-	
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 2; j++) {
-			if(fabs(Mas_multiply_expected.Mas[i * Mas_multiply_expected.length + j] - Mas_multiply_gotten.Mas[i * Mas_multiply_gotten.length + j]) > pow(10, -4)) {
-				printf ("\nMas_multiply_expected.Mas[%d] == %f\nMas_multiply_gotten.Mas[%d] == %f", i * Mas_multiply_expected.length + j, Mas_multiply_expected.Mas[i * Mas_multiply_expected.length + j], i * Mas_multiply_gotten.length + j, Mas_multiply_gotten.Mas[i * Mas_multiply_gotten.length + j]);
+			if(fabs(Mas_multiply_expected.Mas[i * Mas_multiply_expected.width + j] - Mas_multiply_gotten.Mas[i * Mas_multiply_gotten.width + j]) > pow(10, -4)) {
+				printf ("\nMas_multiply_expected.Mas[%d] == %f\nMas_multiply_gotten.Mas[%d] == %f", i * Mas_multiply_expected.width + j, Mas_multiply_expected.Mas[i * Mas_multiply_expected.width + j], i * Mas_multiply_gotten.width + j, Mas_multiply_gotten.Mas[i * Mas_multiply_gotten.width + j]);
 				printf("\nerror test3_Mas_multiply");
 				exit(1);
 			}
