@@ -28,13 +28,13 @@ Matrix summ (Matrix Mas1, Matrix Mas2) {//функция по сложению
 
 Matrix multiply (Matrix Mas1, Matrix Mas2) {//функция по умножению
 	Matrix result;
-	initMatrix (&result, Mas1.length, Mas1.width);
+	initMatrix (&result, Mas1.length, Mas2.width);
 	result.Mas = (float*) malloc(result.length * result.width * sizeof(float));
 	
-	for (int i = 0; i < result.length; i++) {
-		for (int j = 0; j < result.width; j++) {
+	for (int i = 0; i < Mas1.length; i++) {
+		for (int j = 0; j < Mas2.width; j++) {
 			result.Mas[i * result.length + j] = 0;
-			for (int k = 0; k < result.width; k++) {
+			for (int k = 0; k < Mas1.width; k++) {
 				result.Mas[i * result.length + j] += Mas1.Mas[i * Mas1.length + k] * Mas2.Mas[k * Mas2.width + j];	 
 			}
 		}
@@ -149,7 +149,7 @@ void WriteMatrix (FILE *array_output, Matrix Mas1) {
 	}
 }
 
-void test_Mas_summ () {
+void test0_Mas_summ () {
 	Matrix Mas1;
 	Matrix Mas2;
 	Matrix Mas_summ_expected;
@@ -188,14 +188,14 @@ void test_Mas_summ () {
 		for (int j = 0; j < 3; j++) {
 			if(fabs(Mas_summ_expected.Mas[i * Mas_summ_expected.length + j] - Mas_summ_gotten.Mas[i * Mas_summ_gotten.length + j]) > pow(10, -4)) {
 				printf ("\nMas_summ_expected.Mas[%d] == %f\nMas_summ_gotten.Mas[%d] == %f", i * Mas_summ_expected.length + j, Mas_summ_expected.Mas[i * Mas_summ_expected.length + j], i * Mas_summ_gotten.length + j, Mas_summ_gotten.Mas[i * Mas_summ_gotten.length + j]);
-				printf("error");
+				printf("\nerror test0_Mas_summ");
 				exit(1);
 			}
 		}
 	}
 }
 
-void test_Mas_multiply (){
+void test0_Mas_multiply (){
 	Matrix Mas1;
 	Matrix Mas2;
 	Matrix Mas_multiply_expected;
@@ -234,14 +234,14 @@ void test_Mas_multiply (){
 		for (int j = 0; j < 3; j++) {
 			if(fabs(Mas_multiply_expected.Mas[i * Mas_multiply_expected.length + j] - Mas_multiply_gotten.Mas[i * Mas_multiply_gotten.length + j]) > pow(10, -4)) {
 				printf ("\nMas_multiply_expected.Mas[%d] == %f\nMas_multiply_gotten.Mas[%d] == %f", i * Mas_multiply_expected.length + j, Mas_multiply_expected.Mas[i * Mas_multiply_expected.length + j], i * Mas_multiply_gotten.length + j, Mas_multiply_gotten.Mas[i * Mas_multiply_gotten.length + j]);
-				printf("error");
+				printf("\nerror test0_Mas_multiply");
 				exit(1);
 			}
 		}
 	}
 }
 
-void test_Mas1_reverse (){
+void test0_Mas1_reverse (){
 	Matrix Mas1;
 	Matrix Mas1_reverse_expected;
 	
@@ -272,14 +272,14 @@ void test_Mas1_reverse (){
 		for (int j = 0; j < 3; j++) {
 			if(fabs(Mas1_reverse_expected.Mas[i * Mas1_reverse_expected.length + j] - Mas1_reverse_gotten.Mas[i * Mas1_reverse_gotten.length + j]) > pow(10, -4)) {
 				printf ("\nMas1_reverse_expected.Mas[%d] == %f\nMas1_reverse_gotten.Mas[%d] == %f", i * Mas1_reverse_expected.length + j, Mas1_reverse_expected.Mas[i * Mas1_reverse_expected.length + j], i * Mas1_reverse_gotten.length + j, Mas1_reverse_gotten.Mas[i * Mas1_reverse_gotten.length + j]);
-				printf("error");
+				printf("\nerror test0_Mas1_reverse");
 				exit(1);
 			}
 		}
 	}
 }
 
-void test_Mas2_reverse (){
+void test0_Mas2_reverse (){
 	Matrix Mas2;
 	Matrix Mas2_reverse_expected;
 	
@@ -310,14 +310,14 @@ void test_Mas2_reverse (){
 		for (int j = 0; j < 3; j++) {
 			if(fabs(Mas2_reverse_expected.Mas[i * Mas2_reverse_expected.length + j] - Mas2_reverse_gotten.Mas[i * Mas2_reverse_gotten.length + j]) > pow(10, -4)) {
 				printf ("\nMas2_reverse_expected.Mas[%d] == %f\nMas2_reverse_gotten.Mas[%d] == %f", i * Mas2_reverse_expected.length + j, Mas2_reverse_expected.Mas[i * Mas2_reverse_expected.length + j], i * Mas2_reverse_gotten.length + j, Mas2_reverse_gotten.Mas[i * Mas2_reverse_gotten.length + j]);
-				printf("error");
+				printf("\nerror test0_Mas2_reverse");
 				exit(1);
 			}
 		}
 	}
 }
 
-void test_Mas1_det(){
+void test0_Mas1_det(){
 	Matrix Mas1;
 	
 	initMatrix(&Mas1, 3, 3);
@@ -335,12 +335,12 @@ void test_Mas1_det(){
 	
 	if (fabs(det1_expected - det1_gotten) > pow(10, -4)) { 
 		printf ("\ndet1_expected == %f\ndet1_gotten == %f", det1_expected, det1_gotten);
-		printf("error");
+		printf("\nerror test0_Mas1_det");
 		exit(1);
 	}
 }
 
-void test_Mas2_det(){
+void test0_Mas2_det(){
 	Matrix Mas2;
 	
 	initMatrix(&Mas2, 3, 3);
@@ -358,20 +358,511 @@ void test_Mas2_det(){
 	
 	if (fabs(det2_expected - det2_gotten) > pow(10, -4)) { 
 		printf ("\ndet2_expected == %f\ndet2_gotten == %f", det2_expected, det2_gotten);
-		printf("error");
+		printf("\nerror test0_Mas2_det");
 		exit(1);
 	}
 }
 
+void test1_Mas_summ () {
+	Matrix Mas1;
+	Matrix Mas2;
+	Matrix Mas_summ_expected;
+	
+	initMatrix(&Mas1, 4, 4);
+	initMatrix(&Mas2, 4, 4);
+	initMatrix(&Mas_summ_expected, 4, 4);
+	
+	Mas1.Mas = (float*) malloc(Mas1.length * Mas1.width * sizeof(float));
+	Mas2.Mas = (float*) malloc(Mas1.length * Mas1.width * sizeof(float));
+	Mas_summ_expected.Mas = (float*) malloc(Mas_summ_expected.length * Mas_summ_expected.width * sizeof(float));
+	
+	float Mas1_data[16] = {1, 9, 8, 7, 10, 2, 15, 6, 11, 16, 3, 5, 12, 13, 14, 4};  
+	for (int i = 0; i < 16; i++) {
+		Mas1.Mas[i] = Mas1_data[i]; 
+	}
+	
+	float Mas2_data[16] = {9, 1, 2, 3, 10, 8, 16, 4, 11, 15, 7, 5, 12, 13, 14, 6};  
+	for (int i = 0; i < 16; i++) {
+		Mas2.Mas[i] = Mas2_data[i]; 
+	}
+	 
+	float Mas_summ_data[16] = {10, 10, 10, 10, 20, 10, 31, 10, 22, 31, 10, 10, 24, 26, 28, 10};  
+	for (int i = 0; i < 16; i++) {
+		Mas_summ_expected.Mas[i] = Mas_summ_data[i]; 
+	}
+	
+	Matrix Mas_summ_gotten;
+	
+	initMatrix(&Mas_summ_gotten, 4, 4);
+	
+	Mas_summ_gotten.Mas = (float*) malloc(Mas_summ_gotten.length * Mas_summ_gotten.width * sizeof(float));
+	Mas_summ_gotten = summ(Mas1, Mas2);
+	
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			if(fabs(Mas_summ_expected.Mas[i * Mas_summ_expected.length + j] - Mas_summ_gotten.Mas[i * Mas_summ_gotten.length + j]) > pow(10, -4)) {
+				printf ("\nMas_summ_expected.Mas[%d] == %f\nMas_summ_gotten.Mas[%d] == %f", i * Mas_summ_expected.length + j, Mas_summ_expected.Mas[i * Mas_summ_expected.length + j], i * Mas_summ_gotten.length + j, Mas_summ_gotten.Mas[i * Mas_summ_gotten.length + j]);
+				printf("\nerror test1_Mas_summ");
+				exit(1);
+			}
+		}
+	}
+}
+
+void test1_Mas_multiply (){
+	Matrix Mas1;
+	Matrix Mas2;
+	Matrix Mas_multiply_expected;
+	
+	initMatrix(&Mas1, 4, 4);
+	initMatrix(&Mas2, 4, 4);
+	initMatrix(&Mas_multiply_expected, 4, 4);
+	
+	Mas1.Mas = (float*) malloc(Mas1.length * Mas1.width * sizeof(float));
+	Mas2.Mas = (float*) malloc(Mas2.length * Mas2.width * sizeof(float));
+	Mas_multiply_expected.Mas = (float*) malloc(Mas_multiply_expected.length * Mas_multiply_expected.width * sizeof(float));
+	
+	float Mas1_data[16] = {1, 9, 8, 7, 10, 2, 15, 6, 11, 16, 3, 5, 12, 13, 14, 4};  
+	for (int i = 0; i < 16; i++) {
+		Mas1.Mas[i] = Mas1_data[i]; 
+	}
+	
+	float Mas2_data[16] = {9, 1, 2, 3, 10, 8, 16, 4, 11, 15, 7, 5, 12, 13, 14, 6};  
+	for (int i = 0; i < 16; i++) {
+		Mas2.Mas[i] = Mas2_data[i]; 
+	}
+	
+	float Mas_multiply_data[16] = {271, 284, 300, 121, 347, 329, 241, 149, 352, 249, 369, 142, 440, 378, 386, 182};  
+	for (int i = 0; i < 16; i++) {
+		Mas_multiply_expected.Mas[i] = Mas_multiply_data[i]; 
+	}
+	
+	Matrix Mas_multiply_gotten;
+	
+	initMatrix(&Mas_multiply_gotten, 4, 4);
+	
+	Mas_multiply_gotten.Mas = (float*) malloc(Mas_multiply_gotten.length * Mas_multiply_gotten.width * sizeof(float));
+	Mas_multiply_gotten = multiply(Mas1, Mas2);
+	
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			if(fabs(Mas_multiply_expected.Mas[i * Mas_multiply_expected.length + j] - Mas_multiply_gotten.Mas[i * Mas_multiply_gotten.length + j]) > pow(10, -4)) {
+				printf ("\nMas_multiply_expected.Mas[%d] == %f\nMas_multiply_gotten.Mas[%d] == %f", i * Mas_multiply_expected.length + j, Mas_multiply_expected.Mas[i * Mas_multiply_expected.length + j], i * Mas_multiply_gotten.length + j, Mas_multiply_gotten.Mas[i * Mas_multiply_gotten.length + j]);
+				printf("\nerror test1_Mas_multiply");
+				exit(1);
+			}
+		}
+	}
+}
+
+void test1_Mas1_reverse (){
+	Matrix Mas1;
+	Matrix Mas1_reverse_expected;
+	
+	initMatrix(&Mas1, 4, 4);
+	initMatrix(&Mas1_reverse_expected, 4, 4);
+	
+	Mas1.Mas = (float*) malloc(Mas1.length * Mas1.width * sizeof(float));
+	Mas1_reverse_expected.Mas = (float*) malloc(Mas1_reverse_expected.length * Mas1_reverse_expected.width * sizeof(float));
+	
+	float Mas1_data[16] = {1, 9, 8, 7, 10, 2, 15, 6, 11, 16, 3, 5, 12, 13, 14, 4};  
+	for (int i = 0; i < 16; i++) {
+		Mas1.Mas[i] = Mas1_data[i]; 
+	}
+	
+	float Mas1_reverse_data[16] = {-0.0949, 0.0734, 0.0775, -0.0411, 0.0346, -0.0842, -0.0045, 0.0714, 0.0255, -0.0188, -0.0902, 0.0963, 0.0826, 0.1193, 0.0979, -0.1961};  
+	for (int i = 0; i < 16; i++) {
+		Mas1_reverse_expected.Mas[i] = Mas1_reverse_data[i]; 
+	}
+	
+	Matrix Mas1_reverse_gotten;
+	
+	initMatrix(&Mas1_reverse_gotten, 4, 4);
+	
+	Mas1_reverse_gotten.Mas = (float*) malloc(Mas1_reverse_gotten.length * Mas1_reverse_gotten.width * sizeof(float));
+	Mas1_reverse_gotten = reverse(Mas1);
+	
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			if(fabs(Mas1_reverse_expected.Mas[i * Mas1_reverse_expected.length + j] - Mas1_reverse_gotten.Mas[i * Mas1_reverse_gotten.length + j]) > pow(10, -4)) {
+				printf ("\nMas1_reverse_expected.Mas[%d] == %f\nMas1_reverse_gotten.Mas[%d] == %f", i * Mas1_reverse_expected.length + j, Mas1_reverse_expected.Mas[i * Mas1_reverse_expected.length + j], i * Mas1_reverse_gotten.length + j, Mas1_reverse_gotten.Mas[i * Mas1_reverse_gotten.length + j]);
+				printf("\nerror test1_Mas1_reverse");
+				exit(1);
+			}
+		}
+	}
+}
+
+void test1_Mas2_reverse (){
+	Matrix Mas2;
+	Matrix Mas2_reverse_expected;
+	
+	initMatrix(&Mas2, 4, 4);
+	initMatrix(&Mas2_reverse_expected, 4, 4);
+	
+	Mas2.Mas = (float*) malloc(Mas2.length * Mas2.width * sizeof(float));
+	Mas2_reverse_expected.Mas = (float*) malloc(Mas2_reverse_expected.length * Mas2_reverse_expected.width * sizeof(float));
+	
+	float Mas2_data[16] = {9, 1, 2, 3, 10, 8, 16, 4, 11, 15, 7, 5, 12, 13, 14, 6};  
+	for (int i = 0; i < 16; i++) {
+		Mas2.Mas[i] = Mas2_data[i]; 
+	}
+	
+	float Mas2_reverse_data[16] = {0.1191, 0.2246, 0.1932, -0.3703, -0.0772, 0.0434, 0.1449, -0.1111, -0.0434, 0.0869, -0.0434, 0, 0.0305, -0.7463, -0.5990, 1.1481};  
+	for (int i = 0; i < 16; i++) {
+		Mas2_reverse_expected.Mas[i] = Mas2_reverse_data[i]; 
+	}
+	
+	Matrix Mas2_reverse_gotten;
+	
+	initMatrix(&Mas2_reverse_gotten, 4, 4);
+	
+	Mas2_reverse_gotten.Mas = (float*) malloc(Mas2_reverse_gotten.length * Mas2_reverse_gotten.width * sizeof(float));
+	Mas2_reverse_gotten = reverse(Mas2);
+	
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			if(fabs(Mas2_reverse_expected.Mas[i * Mas2_reverse_expected.length + j] - Mas2_reverse_gotten.Mas[i * Mas2_reverse_gotten.length + j]) > pow(10, -4)) {
+				printf ("\nMas2_reverse_expected.Mas[%d] == %f\nMas2_reverse_gotten.Mas[%d] == %f", i * Mas2_reverse_expected.length + j, Mas2_reverse_expected.Mas[i * Mas2_reverse_expected.length + j], i * Mas2_reverse_gotten.length + j, Mas2_reverse_gotten.Mas[i * Mas2_reverse_gotten.length + j]);
+				printf("\nerror test1_Mas2_reverse");
+				exit(1);
+			}
+		}
+	}
+}
+
+void test1_Mas1_det(){
+	Matrix Mas1;
+	
+	initMatrix(&Mas1, 4, 4);
+	
+	Mas1.Mas = (float*) malloc(Mas1.length * Mas1.width * sizeof(float));
+	
+	float Mas1_data[16] = {1, 9, 8, 7, 10, 2, 15, 6, 11, 16, 3, 5, 12, 13, 14, 4};  
+	for (int i = 0; i < 16; i++) {
+		Mas1.Mas[i] = Mas1_data[i]; 
+	}
+	
+	float det1_expected = -10632;
+	
+	float det1_gotten = Det(Mas1);
+	
+	if (fabs(det1_expected - det1_gotten) > pow(10, -4)) { 
+		printf ("\ndet1_expected == %f\ndet1_gotten == %f", det1_expected, det1_gotten);
+		printf("\nerror test1_Mas1_det");
+		exit(1);
+	}
+}
+
+void test1_Mas2_det(){
+	Matrix Mas2;
+	
+	initMatrix(&Mas2, 4, 4);
+	
+	Mas2.Mas = (float*) malloc(Mas2.length * Mas2.width * sizeof(float));
+	
+	float Mas2_data[16] = {9, 1, 2, 3, 10, 8, 16, 4, 11, 15, 7, 5, 12, 13, 14, 6};  
+	for (int i = 0; i < 16; i++) {
+		Mas2.Mas[i] = Mas2_data[i]; 
+	}
+	
+	float det2_expected = -1242;
+	
+	float det2_gotten = Det(Mas2);
+	
+	if (fabs(det2_expected - det2_gotten) > pow(10, -4)) { 
+		printf ("\ndet2_expected == %f\ndet2_gotten == %f", det2_expected, det2_gotten);
+		printf("\nerror test1_Mas2_det");
+		exit(1);
+	}
+}
+
+void test2_Mas_summ () {
+	Matrix Mas1;
+	Matrix Mas2;
+	Matrix Mas_summ_expected;
+	
+	initMatrix(&Mas1, 5, 5);
+	initMatrix(&Mas2, 5, 5);
+	initMatrix(&Mas_summ_expected, 5, 5);
+	
+	Mas1.Mas = (float*) malloc(Mas1.length * Mas1.width * sizeof(float));
+	Mas2.Mas = (float*) malloc(Mas1.length * Mas1.width * sizeof(float));
+	Mas_summ_expected.Mas = (float*) malloc(Mas_summ_expected.length * Mas_summ_expected.width * sizeof(float));
+	
+	float Mas1_data[25] = {1, 9, 8, 7, 10, 10, 2, 15, 6, 9, 11, 16, 3, 5, 8, 12, 13, 14, 4, 7, 2, 3, 4, 5, 6};  
+	for (int i = 0; i < 25; i++) {
+		Mas1.Mas[i] = Mas1_data[i]; 
+	}
+	
+	float Mas2_data[25] = {9, 1, 2, 3, 2, 10, 8, 16, 4, 3, 11, 15, 7, 5, 4, 12, 13, 14, 6, 5, 10, 9, 8, 7, 6};  
+	for (int i = 0; i < 25; i++) {
+		Mas2.Mas[i] = Mas2_data[i]; 
+	}
+	 
+	float Mas_summ_data[25] = {10, 10, 10, 10, 12, 20, 10, 31, 10, 12, 22, 31, 10, 10, 12, 24, 26, 28, 10, 12, 12, 12, 12, 12, 12};  
+	for (int i = 0; i < 25; i++) {
+		Mas_summ_expected.Mas[i] = Mas_summ_data[i]; 
+	}
+	
+	Matrix Mas_summ_gotten;
+	
+	initMatrix(&Mas_summ_gotten, 5, 5);
+	
+	Mas_summ_gotten.Mas = (float*) malloc(Mas_summ_gotten.length * Mas_summ_gotten.width * sizeof(float));
+	Mas_summ_gotten = summ(Mas1, Mas2);
+	
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 5; j++) {
+			if(fabs(Mas_summ_expected.Mas[i * Mas_summ_expected.length + j] - Mas_summ_gotten.Mas[i * Mas_summ_gotten.length + j]) > pow(10, -4)) {
+				printf ("\nMas_summ_expected.Mas[%d] == %f\nMas_summ_gotten.Mas[%d] == %f", i * Mas_summ_expected.length + j, Mas_summ_expected.Mas[i * Mas_summ_expected.length + j], i * Mas_summ_gotten.length + j, Mas_summ_gotten.Mas[i * Mas_summ_gotten.length + j]);
+				printf("\nerror test2_Mas_summ");
+				exit(1);
+			}
+		}
+	}
+}
+
+void test2_Mas_multiply (){
+	Matrix Mas1;
+	Matrix Mas2;
+	Matrix Mas_multiply_expected;
+	
+	initMatrix(&Mas1, 5, 5);
+	initMatrix(&Mas2, 5, 5);
+	initMatrix(&Mas_multiply_expected, 5, 5);
+	
+	Mas1.Mas = (float*) malloc(Mas1.length * Mas1.width * sizeof(float));
+	Mas2.Mas = (float*) malloc(Mas2.length * Mas2.width * sizeof(float));
+	Mas_multiply_expected.Mas = (float*) malloc(Mas_multiply_expected.length * Mas_multiply_expected.width * sizeof(float));
+	
+	float Mas1_data[25] = {1, 9, 8, 7, 10, 10, 2, 15, 6, 9, 11, 16, 3, 5, 8, 12, 13, 14, 4, 7, 2, 3, 4, 5, 6};  
+	for (int i = 0; i < 25; i++) {
+		Mas1.Mas[i] = Mas1_data[i]; 
+	}
+	
+	float Mas2_data[25] = {9, 1, 2, 3, 2, 10, 8, 16, 4, 3, 11, 15, 7, 5, 4, 12, 13, 14, 6, 5, 10, 9, 8, 7, 6};  
+	for (int i = 0; i < 25; i++) {
+		Mas2.Mas[i] = Mas2_data[i]; 
+	}
+	
+	float Mas_multiply_data[25] = {371, 374, 380, 191, 156, 437, 410, 313, 212, 170, 432, 321, 433, 198, 155, 510, 441, 442, 231, 181, 212, 205, 198, 110, 90};  
+	for (int i = 0; i < 25; i++) {
+		Mas_multiply_expected.Mas[i] = Mas_multiply_data[i]; 
+	}
+	
+	Matrix Mas_multiply_gotten;
+	
+	initMatrix(&Mas_multiply_gotten, 5, 5);
+	
+	Mas_multiply_gotten.Mas = (float*) malloc(Mas_multiply_gotten.length * Mas_multiply_gotten.width * sizeof(float));
+	Mas_multiply_gotten = multiply(Mas1, Mas2);
+	
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 5; j++) {
+			if(fabs(Mas_multiply_expected.Mas[i * Mas_multiply_expected.length + j] - Mas_multiply_gotten.Mas[i * Mas_multiply_gotten.length + j]) > pow(10, -4)) {
+				printf ("\nMas_multiply_expected.Mas[%d] == %f\nMas_multiply_gotten.Mas[%d] == %f", i * Mas_multiply_expected.length + j, Mas_multiply_expected.Mas[i * Mas_multiply_expected.length + j], i * Mas_multiply_gotten.length + j, Mas_multiply_gotten.Mas[i * Mas_multiply_gotten.length + j]);
+				printf("\nerror test2_Mas_multiply");
+				exit(1);
+			}
+		}
+	}
+}
+
+void test2_Mas1_reverse (){
+	Matrix Mas1;
+	Matrix Mas1_reverse_expected;
+	
+	initMatrix(&Mas1, 5, 5);
+	initMatrix(&Mas1_reverse_expected, 5, 5);
+	
+	Mas1.Mas = (float*) malloc(Mas1.length * Mas1.width * sizeof(float));
+	Mas1_reverse_expected.Mas = (float*) malloc(Mas1_reverse_expected.length * Mas1_reverse_expected.width * sizeof(float));
+	
+	float Mas1_data[25] = {1, 9, 8, 7, 10, 10, 2, 15, 6, 9, 11, 16, 3, 5, 8, 12, 13, 14, 4, 7, 2, 3, 4, 5, 6};  
+	for (int i = 0; i < 25; i++) {
+		Mas1.Mas[i] = Mas1_data[i]; 
+	}
+	
+	float Mas1_reverse_data[25] = {-0.1151, 0.0538, 0.0648, -0.0192, 0.0471, 0.0113, -0.1068, -0.0191, 0.0965, 0.0542, 0.0083, -0.0354, -0.1011, 0.1148, 0.0400, -0.5061, -0.4501, -0.2721, 0.4383, 1.3702, 0.4489, 0.4342, 0.2821, -0.4837, -1.0448};  
+	for (int i = 0; i < 25; i++) {
+		Mas1_reverse_expected.Mas[i] = Mas1_reverse_data[i]; 
+	}
+	
+	Matrix Mas1_reverse_gotten;
+	
+	initMatrix(&Mas1_reverse_gotten, 5, 5);
+	
+	Mas1_reverse_gotten.Mas = (float*) malloc(Mas1_reverse_gotten.length * Mas1_reverse_gotten.width * sizeof(float));
+	Mas1_reverse_gotten = reverse(Mas1);
+	
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 5; j++) {
+			if(fabs(Mas1_reverse_expected.Mas[i * Mas1_reverse_expected.length + j] - Mas1_reverse_gotten.Mas[i * Mas1_reverse_gotten.length + j]) > pow(10, -4)) {
+				printf ("\nMas1_reverse_expected.Mas[%d] == %f\nMas1_reverse_gotten.Mas[%d] == %f", i * Mas1_reverse_expected.length + j, Mas1_reverse_expected.Mas[i * Mas1_reverse_expected.length + j], i * Mas1_reverse_gotten.length + j, Mas1_reverse_gotten.Mas[i * Mas1_reverse_gotten.length + j]);
+				printf("\nerror test2_Mas1_reverse");
+				exit(1);
+			}
+		}
+	}
+}
+
+void test2_Mas2_reverse (){
+	Matrix Mas2;
+	Matrix Mas2_reverse_expected;
+	
+	initMatrix(&Mas2, 5, 5);
+	initMatrix(&Mas2_reverse_expected, 5, 5);
+	
+	Mas2.Mas = (float*) malloc(Mas2.length * Mas2.width * sizeof(float));
+	Mas2_reverse_expected.Mas = (float*) malloc(Mas2_reverse_expected.length * Mas2_reverse_expected.width * sizeof(float));
+	
+	float Mas2_data[25] = {9, 1, 2, 3, 2, 10, 8, 16, 4, 3, 11, 15, 7, 5, 4, 12, 13, 14, 6, 5, 10, 9, 8, 7, 6};  
+	for (int i = 0; i < 25; i++) {
+		Mas2.Mas[i] = Mas2_data[i]; 
+	}
+	
+	float Mas2_reverse_data[25] = {0.2399, -0.4057, -0.2415, 0.7407, -0.3333, -0.0772, 0.0434, 0.1449, -0.1111, 0, -0.0434, 0.0869, -0.0434, 0, 0, -0.8148, 3.6666, 2.4444, -6.6296, 2.3333, 0.7246, -3.7826, -2.6086, 6.6666, -2};
+	for (int i = 0; i < 25; i++) {
+		Mas2_reverse_expected.Mas[i] = Mas2_reverse_data[i]; 
+	}
+	
+	Matrix Mas2_reverse_gotten;
+	
+	initMatrix(&Mas2_reverse_gotten, 5, 5);
+	
+	Mas2_reverse_gotten.Mas = (float*) malloc(Mas2_reverse_gotten.length * Mas2_reverse_gotten.width * sizeof(float));
+	Mas2_reverse_gotten = reverse(Mas2);
+	
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 5; j++) {
+			if(fabs(Mas2_reverse_expected.Mas[i * Mas2_reverse_expected.length + j] - Mas2_reverse_gotten.Mas[i * Mas2_reverse_gotten.length + j]) > pow(10, -4)) {
+				printf ("\nMas2_reverse_expected.Mas[%d] == %f\nMas2_reverse_gotten.Mas[%d] == %f", i * Mas2_reverse_expected.length + j, Mas2_reverse_expected.Mas[i * Mas2_reverse_expected.length + j], i * Mas2_reverse_gotten.length + j, Mas2_reverse_gotten.Mas[i * Mas2_reverse_gotten.length + j]);
+				printf("\nerror test2_Mas2_reverse");
+				exit(1);
+			}
+		}
+	}
+}
+
+void test2_Mas1_det(){
+	Matrix Mas1;
+	
+	initMatrix(&Mas1, 5, 5);
+	
+	Mas1.Mas = (float*) malloc(Mas1.length * Mas1.width * sizeof(float));
+	
+	float Mas1_data[25] = {1, 9, 8, 7, 10, 10, 2, 15, 6, 9, 11, 16, 3, 5, 8, 12, 13, 14, 4, 7, 2, 3, 4, 5, 6};  
+	for (int i = 0; i < 25; i++) {
+		Mas1.Mas[i] = Mas1_data[i]; 
+	}
+	
+	float det1_expected = 10176;
+	
+	float det1_gotten = Det(Mas1);
+	
+	if (fabs(det1_expected - det1_gotten) > pow(10, -4)) { 
+		printf ("\ndet1_expected == %f\ndet1_gotten == %f", det1_expected, det1_gotten);
+		printf("\nerror test2_Mas1_det");
+		exit(1);
+	}
+}
+
+void test2_Mas2_det(){
+	Matrix Mas2;
+	
+	initMatrix(&Mas2, 5, 5);
+	
+	Mas2.Mas = (float*) malloc(Mas2.length * Mas2.width * sizeof(float));
+	
+	float Mas2_data[25] = {9, 1, 2, 3, 2, 10, 8, 16, 4, 3, 11, 15, 7, 5, 4, 12, 13, 14, 6, 5, 10, 9, 8, 7, 6};  
+	for (int i = 0; i < 25; i++) {
+		Mas2.Mas[i] = Mas2_data[i]; 
+	}
+	
+	float det2_expected = 621;
+	
+	float det2_gotten = Det(Mas2);
+	
+	if (fabs(det2_expected - det2_gotten) > pow(10, -4)) { 
+		printf ("\ndet2_expected == %f\ndet2_gotten == %f", det2_expected, det2_gotten);
+		printf("\nerror test2_Mas2_det");
+		exit(1);
+	}
+}
+
+void test3_Mas_multiply (){
+	Matrix Mas1;
+	Matrix Mas2;
+	Matrix Mas_multiply_expected;
+	
+	initMatrix(&Mas1, 4, 3);
+	initMatrix(&Mas2, 3, 2);
+	initMatrix(&Mas_multiply_expected, 4, 2);
+	
+	Mas1.Mas = (float*) malloc(Mas1.length * Mas1.width * sizeof(float));
+	Mas2.Mas = (float*) malloc(Mas2.length * Mas2.width * sizeof(float));
+	Mas_multiply_expected.Mas = (float*) malloc(Mas_multiply_expected.length * Mas_multiply_expected.width * sizeof(float));
+	
+	float Mas1_data[12] = {1, 9, 8, 10, 2, 15, 11, 16, 3, 12, 13, 14};  
+	for (int i = 0; i < 12; i++) {
+		Mas1.Mas[i] = Mas1_data[i]; 
+	}
+	
+	float Mas2_data[6] = {9, 1, 10, 8, 11, 15};  
+	for (int i = 0; i < 6; i++) {
+		Mas2.Mas[i] = Mas2_data[i]; 
+	}
+	
+	float Mas_multiply_data[8] = {187, 193, 275, 251, 289, 287, 392, 326};  
+	for (int i = 0; i < 8; i++) {
+		Mas_multiply_expected.Mas[i] = Mas_multiply_data[i]; 
+	}
+	
+	Matrix Mas_multiply_gotten;
+	
+	initMatrix(&Mas_multiply_gotten, 4, 2);
+	
+	Mas_multiply_gotten.Mas = (float*) malloc(Mas_multiply_gotten.length * Mas_multiply_gotten.width * sizeof(float));
+	Mas_multiply_gotten = multiply(Mas1, Mas2);
+	
+	PrintMatrix (Mas_multiply_gotten);
+	
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 2; j++) {
+			if(fabs(Mas_multiply_expected.Mas[i * Mas_multiply_expected.length + j] - Mas_multiply_gotten.Mas[i * Mas_multiply_gotten.length + j]) > pow(10, -4)) {
+				printf ("\nMas_multiply_expected.Mas[%d] == %f\nMas_multiply_gotten.Mas[%d] == %f", i * Mas_multiply_expected.length + j, Mas_multiply_expected.Mas[i * Mas_multiply_expected.length + j], i * Mas_multiply_gotten.length + j, Mas_multiply_gotten.Mas[i * Mas_multiply_gotten.length + j]);
+				printf("\nerror test3_Mas_multiply");
+				exit(1);
+			}
+		}
+	}
+}
 
 int main()
 {
-	test_Mas_summ();
-	test_Mas_multiply();
-	test_Mas1_reverse();
-	test_Mas2_reverse();
-	test_Mas1_det();
-	test_Mas2_det();
+	test0_Mas_summ();
+	test0_Mas_multiply();
+	test0_Mas1_reverse();
+	test0_Mas2_reverse();
+	test0_Mas1_det();
+	test0_Mas2_det();
+	
+	test1_Mas_summ();
+	test1_Mas_multiply();
+	test1_Mas1_reverse();
+	test1_Mas2_reverse();
+	test1_Mas1_det();
+	test1_Mas2_det();
+	
+	test2_Mas_summ();
+	test2_Mas_multiply();
+	test2_Mas1_reverse();
+	test2_Mas2_reverse();
+	test2_Mas1_det();
+	test2_Mas2_det();
+	
+	test3_Mas_multiply();
 	
 	int path,//"path" - переменная по выбору способа считывания и записи элементов матрицы
 	length, width;
@@ -420,17 +911,19 @@ int main()
 	printf("This is the second matrix");
 	PrintMatrix(Mas2);
 	
+	if ((Mas1.length == Mas2.length)&&(Mas1.width == Mas2.width)) {
+	    printf("\n\n");
+	    Mas3 = summ(Mas1, Mas2);//вызываем функцию суммирования
+	    printf("This is the summ matrix");
+	    PrintMatrix(Mas3);
+	}
+	if (Mas1.width == Mas2.length) {
+	    printf("\n\n");
+	    Mas3 = multiply(Mas1, Mas2);//вызываем функцию умножения
+	    printf("This is the multiply matrix");
+	    PrintMatrix(Mas3);
+	}
 	
-	printf("\n\n");
-	Mas3 = summ(Mas1, Mas2);//вызываем функцию суммирования
-	printf("This is the summ matrix");
-	PrintMatrix(Mas3);
-	
-	printf("\n\n");
-	Mas3 = multiply(Mas1, Mas2);//вызываем функцию умножения
-	printf("This is the multiply matrix");
-	PrintMatrix(Mas3);
-		
 	if (length == width) {		
 		printf("\n\ndet1 = %f\n\ndet2 = %f\n\n", Det(Mas1), Det(Mas2));
 		//вызываем функцию по обнаружению определителя и сразу же выводим его значение
@@ -456,14 +949,18 @@ int main()
 	
 	
 	FILE *array_output = fopen("array_output.txt", "w");
-	summ(Mas1, Mas2);//вызываем функцию суммирования
-	WriteMatrix(array_output, Mas3);
-	fprintf(array_output, "\n\n");
-		
-	multiply(Mas1, Mas2);//вызываем функцию умножения
-	WriteMatrix(array_output, Mas3);
-	fprintf(array_output, "\n\n");
-		
+	if ((Mas1.length == Mas2.length)&&(Mas1.width == Mas2.width)) { 
+	    summ(Mas1, Mas2);//вызываем функцию суммирования
+	    WriteMatrix(array_output, Mas3);
+	    fprintf(array_output, "\n\n");
+	}
+	
+	if (Mas1.width == Mas2.length) {
+	    multiply(Mas1, Mas2);//вызываем функцию умножения
+	    WriteMatrix(array_output, Mas3);
+	    fprintf(array_output, "\n\n");
+	}
+	
 	if (length == width) {
 		fprintf(array_output,"\n\ndet1 = %f\n\ndet2 = %f\n\n", Det(Mas1), Det(Mas2));
 		//вызываем функцию по обнаружению определителя и сразу же записываем его значение в файл
